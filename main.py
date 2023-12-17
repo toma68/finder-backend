@@ -11,7 +11,7 @@ load_dotenv()
 
 # Accessing variables
 mongodb_uri = os.getenv('MONGODB_URI')
-print(mongodb_uri)
+print("MONGODB_URI: ", mongodb_uri)
 
 app = Flask(__name__)
 
@@ -27,37 +27,45 @@ def get_data():
     except Exception as e:
         return jsonify({'error': e}), 500
     
-# Databases
-@app.route('/databases', methods=['GET'])
-def get_dbs():
+# Users routes
+@app.route('/users', methods=['GET'])
+def get_users():
     try:
-        return jsonify(client.list_database_names()), 200
+        return json.dumps(list(client['finder']['users'].find()), default=json_util.default), 200
     except Exception as e:
         return jsonify({'error': e}), 500
     
-# Collections
-@app.route('/collections/<db_name>', methods=['GET'])
-def get_collections_by_db(db_name):
+@app.route('/users/login', methods=['POST'])
+def login():
     try:
-        return jsonify(client[db_name].list_collection_names()), 200
+        if request.json is None or 'name' not in request.json or 'surname' not in request.json:
+            return jsonify({'message': 'Invalid request body!'}), 400
+        user = client['finder']['users'].find_one({'name': request.json['name'], 'surname': request.json['surname']})
+        if user is None:
+            return jsonify({'message': 'User not found!'}), 404
+        return json.dumps(user, default=json_util.default), 200
     except Exception as e:
         return jsonify({'error': e}), 500
-
-# Documents
-@app.route('/documents/<db_name>/<collection_name>', methods=['GET'])
-def get_documents_by_collection(db_name, collection_name):
+    
+@app.route('/users/signup', methods=['POST'])
+def signup():
     try:
-        return json.dumps(list(client[db_name][collection_name].find()), default=json_util.default), 200
+        if request.json is None or 'name' not in request.json or 'surname' not in request.json or 'company' not in request.json or 'bio' not in request.json or 'photo' not in request.json or 'gender' not in request.json:
+            return jsonify({'message': 'Invalid request body!'}), 400
+        user = client['finder']['users'].find_one({'name': request.json['name'], 'surname': request.json['surname']})
+        if user is not None:
+            return jsonify({'message': 'User already exists!'}), 409
+        client['finder']['users'].insert_one(request.json)
+        user = client['finder']['users'].find_one({'name': request.json['name'], 'surname': request.json['surname']})
+        return json.dumps(user, default=json_util.default), 200
     except Exception as e:
         return jsonify({'error': e}), 500
-
-@app.route('/documents/<db_name>/<collection_name>', methods=['POST'])
-def add_document(db_name, collection_name):
+    
+# Bars routes
+@app.route('/bars', methods=['GET'])
+def get_bars():
     try:
-        if len(request.json) == 0 or type(request.json) != list:
-            return jsonify({'message': 'Invalid request body!', 'example': [{'name': 'Kayla', 'surname': 'Ramos', 'company': 'Irwin-Long', 'bio': 'Almost goal speak his institution late magazine.', 'photo': 'https://placekitten.com/33/616', 'gender': 'm'}]}), 400
-        client[db_name][collection_name].insert_many(request.json)
-        return jsonify({'message': 'Document added successfully!'}), 200
+        return json.dumps(list(client['finder']['bars'].find()), default=json_util.default), 200
     except Exception as e:
         return jsonify({'error': e}), 500
 
