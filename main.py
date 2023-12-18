@@ -5,6 +5,7 @@ from bson import json_util
 import json
 from dotenv import load_dotenv
 import os
+import random
 
 # Load .env file
 load_dotenv()
@@ -65,7 +66,55 @@ def signup():
 @app.route('/bars', methods=['GET'])
 def get_bars():
     try:
-        return json.dumps(list(client['finder']['bars'].find()), default=json_util.default), 200
+        if request.args is None or 'name' not in request.args:
+            return json.dumps(list(client['finder']['bars'].find()), default=json_util.default), 200
+        bar = client['finder']['bars'].find_one({'name': request.args['name']})
+        if bar is None:
+            return json.dumps(list(client['finder']['bars'].find()), default=json_util.default), 200
+        return json.dumps(bar, default=json_util.default), 200
+    except Exception as e:
+        return jsonify({'error': e}), 500
+    
+@app.route('/bars/users', methods=['GET'])
+def get_bars_users():
+    try:
+        if request.args is None or 'name' not in request.args:
+            pipeline = [
+                { "$lookup": {                     
+                    "from": "users",
+                    "localField": "_id",
+                    "foreignField": "bar_id",
+                    "as": "users_in_bar"
+                }}
+            ]
+            bars = client['finder']['bars'].aggregate(pipeline)
+            return json.dumps(list(bars), default=json_util.default), 200
+
+        pipeline = [
+            { "$match": {"name": request.args['name']} },  
+            { "$lookup": {                      
+                "from": "users",
+                "localField": "_id",
+                "foreignField": "bar_id",
+                "as": "users_in_bar"
+            }}
+        ]
+        bar = client['finder']['bars'].aggregate(pipeline)
+
+        if bar is None:
+
+            pipeline = [
+                { "$lookup": {                      
+                    "from": "users",
+                    "localField": "_id",
+                    "foreignField": "bar_id",
+                    "as": "users_in_bar"
+                }}
+            ]
+            bars = client['finder']['bars'].aggregate(pipeline)
+            return json.dumps(list(bars), default=json_util.default), 200
+        
+        return json.dumps(list(bar), default=json_util.default), 200
     except Exception as e:
         return jsonify({'error': e}), 500
 
