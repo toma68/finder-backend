@@ -1,0 +1,161 @@
+swagger: '2.0'
+info:
+  title: Finder API
+  version: '1.0.0'
+host: 'localhost:5000'
+basePath: '/'
+schemes:
+  - http
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /ping:
+    get:
+      summary: Check MongoDB connection
+      description: Pings the MongoDB server to check connectivity.
+      responses:
+        200:
+          description: Successfully connected to MongoDB.
+        500:
+          description: Error occurred.
+
+  /users:
+    get:
+      summary: Get all users
+      description: Retrieves a list of all users.
+      responses:
+        200:
+          description: A list of users.
+        500:
+          description: Error occurred.
+
+  /users/login:
+    post:
+      summary: User login
+      description: Check if a user exists based on name and surname.
+      parameters:
+        - in: body
+          name: user
+          description: The user's name and surname.
+          schema:
+            type: object
+            required:
+              - name
+              - surname
+            properties:
+              name:
+                type: string
+              surname:
+                type: string
+      responses:
+        200:
+          description: User found and returned.
+        404:
+          description: User not found.
+        500:
+          description: Error occurred.
+
+  /users/signup:
+    post:
+      summary: User signup
+      description: Create a new user.
+      parameters:
+        - in: body
+          name: user
+          description: New user details.
+          schema:
+            type: object
+            required:
+              - name
+              - surname
+              - company
+              - bio
+              - photo
+              - gender
+            properties:
+              name:
+                type: string
+              surname:
+                type: string
+              company:
+                type: string
+              bio:
+                type: string
+              photo:
+                type: string
+              gender:
+                type: string
+      responses:
+        200:
+          description: User created successfully.
+        409:
+          description: User already exists.
+        500:
+          description: Error occurred.
+
+  /users/bars:
+    get:
+      summary: Get all users with their corresponding bars
+      description: Retrieves all users and the bars they are in, if any.
+      responses:
+        200:
+          description: A list of users with their corresponding bars.
+        500:
+          description: Error occurred.
+
+  /bars:
+    get:
+      summary: Get all bars
+      description: Retrieves a list of all bars.
+      responses:
+        200:
+          description: A list of bars.
+        500:
+          description: Error occurred.
+
+  /bars/users:
+    get:
+      summary: Get all bars with their corresponding users
+      description: Retrieves all bars and the users in them, if any.
+      responses:
+        200:
+          description: A list of bars with their corresponding users.
+        500:
+          description: Error occurred.
+
+definitions:
+  User:
+    type: object
+    properties:
+      name:
+        type: string
+      surname:
+        type: string
+      company:
+        type: string
+      bio:
+        type: string
+      photo:
+        type: string
+      gender:
+        type: string
+      bar_id:
+        type: string
+
+  Bar:
+    type: object
+    properties:
+      name:
+        type: string
+      longitude:
+        type: string
+      latitude:
+        type: string
+      capacity:
+        type: string
+      type:
+        type: string
+      description:
+        type: string
