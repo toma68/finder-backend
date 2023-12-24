@@ -15,6 +15,8 @@
 		E22512FB2B2F3D6100E84B5D /* CheckBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = E22512FA2B2F3D6100E84B5D /* CheckBox.swift */; };
 		E22512FD2B2F721A00E84B5D /* TextCustomField.swift in Sources */ = {isa = PBXBuildFile; fileRef = E22512FC2B2F721A00E84B5D /* TextCustomField.swift */; };
 		E22512FF2B2F74A100E84B5D /* Navbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = E22512FE2B2F74A100E84B5D /* Navbar.swift */; };
+		E23211202B3885BC00348C94 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E232111F2B3885BC00348C94 /* MapView.swift */; };
+		E23211222B3886B100348C94 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23211212B3886B100348C94 /* ContentView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,6 +29,8 @@
 		E22512FA2B2F3D6100E84B5D /* CheckBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckBox.swift; sourceTree = "<group>"; };
 		E22512FC2B2F721A00E84B5D /* TextCustomField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextCustomField.swift; sourceTree = "<group>"; };
 		E22512FE2B2F74A100E84B5D /* Navbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Navbar.swift; sourceTree = "<group>"; };
+		E232111F2B3885BC00348C94 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
+		E23211212B3886B100348C94 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,6 +111,8 @@
 				E22512FA2B2F3D6100E84B5D /* CheckBox.swift */,
 				E22512FC2B2F721A00E84B5D /* TextCustomField.swift */,
 				E22512FE2B2F74A100E84B5D /* Navbar.swift */,
+				E232111F2B3885BC00348C94 /* MapView.swift */,
+				E23211212B3886B100348C94 /* ContentView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -181,7 +187,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E23211202B3885BC00348C94 /* MapView.swift in Sources */,
 				E22512FB2B2F3D6100E84B5D /* CheckBox.swift in Sources */,
+				E23211222B3886B100348C94 /* ContentView.swift in Sources */,
 				1EDEE4F32B2C5B1400E45037 /* SignupView.swift in Sources */,
 				1EDEE4F12B2C563000E45037 /* LoginView.swift in Sources */,
 				E22512FF2B2F74A100E84B5D /* Navbar.swift in Sources */,

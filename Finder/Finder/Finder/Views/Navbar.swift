@@ -22,7 +22,7 @@ struct NavBar: View {
                     Text("Bars")
                 }
             
-            Tab3View()
+            ContentView()
                 .tabItem {
                     Image(systemName: "map")
                     Text("Map")
