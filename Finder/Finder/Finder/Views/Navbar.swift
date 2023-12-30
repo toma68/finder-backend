@@ -22,7 +22,7 @@ struct NavBar: View {
                     Text("Bars")
                 }
             
-            ContentView()
+            MapView()
                 .tabItem {
                     Image(systemName: "map")
                     Text("Map")
@@ -40,12 +40,6 @@ struct NavBar: View {
 struct Tab2View: View {
     var body: some View {
         Text("Bar view")
-    }
-}
-
-struct Tab3View: View {
-    var body: some View {
-        Text("Map View")
     }
 }
 

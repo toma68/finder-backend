@@ -10,7 +10,7 @@ import MapKit
 import Foundation
 import CoreLocation
 
-var zoom : Double = 0.005
+private var zoom : Double = 0.005
 
 func calculateRegion(for items: [Bar]) -> MKCoordinateRegion {
     let latitudes = items.map { $0.coordinate.latitude }
@@ -35,21 +35,6 @@ func calculateRegion(for items: [Bar]) -> MKCoordinateRegion {
 }
 
 
-struct Bar: Identifiable {
-    let id = UUID()
-    let name: String
-    let longitude: Double
-    let latitude: Double
-    let capacity: String
-    let type: String
-    let description: String
-
-    var coordinate: CLLocationCoordinate2D {
-        CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
-    }
-}
-
-
 struct MarkerView: View {
     var item: Bar
     var onTap: () -> Void
@@ -67,19 +52,86 @@ struct MarkerView: View {
 struct LocationDetailView: View {
     var item: Bar
     var onExit: () -> Void
+    
+    @Binding var user: User?
 
     var body: some View {
-        HStack {
-            Text(item.name)
+        VStack {
+            HStack {
+                Text(item.name)
+                
+                Spacer()
+                
+                Button(action: onExit) {
+                    Image(systemName: "xmark.circle.fill")
+                        .foregroundColor(Color("DarkBlue"))
+                }
+                
+            }.padding(5)
             
-            Spacer()
+            HStack {
+                Image(systemName: "person.3")
+                Text(":")
+                
+                Spacer()
+                
+                Text("0" + " / " + item.capacity)
+            }.padding(5)
             
-            Button(action: onExit) {
-                Image(systemName: "xmark.circle.fill")
-                    .foregroundColor(Color("DarkBlue"))
+            HStack {
+                Text(item.description)
+            }.padding(5)
+            
+            HStack {
+                if user != nil {
+                    if user?.barId == item.id {
+                        Button(action: {
+                            leaveBar(item: item)
+                        }) {
+                            Image(systemName: "figure.walk.departure")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 35, height: 35)
+                                .padding(12)
+                        }
+                        .frame(maxWidth: .infinity)
+                        .background(Color("Orange"))
+                        .foregroundColor(.white)
+                        .cornerRadius(10)
+                        .font(.system(size: 20, weight: .bold, design: .rounded))
+                    } else {
+                        Button(action: {
+                            enterBar(item: item)
+                        }) {
+                            Image(systemName: "figure.walk.arrival")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 35, height: 35)
+                                .padding(12)
+                        }
+                        .frame(maxWidth: .infinity)
+                        .background(Color("DarkGreen"))
+                        .foregroundColor(.white)
+                        .cornerRadius(10)
+                        .font(.system(size: 20, weight: .bold, design: .rounded))
+                    }
+                }
+                else {
+                    NavigationLink(destination: SignupView()) {
+                        Image(systemName: "person.crop.circle.badge.plus")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 35, height: 35)
+                            .padding(12)
+                    }
+                    .frame(maxWidth: .infinity)
+                    .background(Color("LightBlue"))
+                    .foregroundColor(.white)
+                    .cornerRadius(10)
+                    .font(.system(size: 20, weight: .bold, design: .rounded))
+                }
             }
-            
-            // Add more details about the location here
+            .padding(5)
         }
         .padding()
         .frame(width: 300)
@@ -87,18 +139,28 @@ struct LocationDetailView: View {
         .cornerRadius(10)
         .shadow(radius: 5)
     }
+
+    private func enterBar(item: Bar) {
+        user?.barId = item.id
+    }
+
+    private func leaveBar(item: Bar) {
+        user?.barId = nil
+    }
 }
 
 
 struct MapContent: View {
     var items: [Bar]
     @Binding var selectedItem: Bar?
+    @Binding var user: User?
     @State private var region: MKCoordinateRegion
 
-    init(items: [Bar], selectedItem: Binding<Bar?>) {
-        self.items = items
-        self._selectedItem = selectedItem
-        self._region = State(initialValue: calculateRegion(for: items))
+    init(items: [Bar], selectedItem: Binding<Bar?>, user: Binding<User?>) {
+            self.items = items
+            self._selectedItem = selectedItem
+            self._user = user
+            self._region = State(initialValue: calculateRegion(for: items))
     }
 
     private func centerMapOnLocation(location: Bar) {
@@ -118,9 +180,7 @@ struct MapContent: View {
         .overlay(
             Group {
                 if let selectedItem = selectedItem {
-                    LocationDetailView(item: selectedItem) {
-                        self.selectedItem = nil  // Deselect item
-                    }
+                    LocationDetailView(item: selectedItem, onExit: { self.selectedItem = nil }, user: $user)
                 }
             }.offset(y: -25),
             alignment: .bottom
@@ -134,36 +194,68 @@ struct MapView: View {
     @State private var selectedItem: Bar?
     
     // Example data
+    @State private var user: User? = User(
+            id: "657ecff0151500481a95d0ed",
+            name: "Kayla",
+            surname: "Ramos",
+            company: "Irwin-Long",
+            bio: "Almost goal speak his institution late magazine.",
+            photo: URL(string: "https://placekitten.com/33/616")!,
+            gender: "m",
+            barId: "657ed495dc43be55442b8538"
+        )
+//    @State private var user: User? = User(
+//            id: "657ecff0151500481a95d0ed",
+//            name: "Kayla",
+//            surname: "Ramos",
+//            company: "Irwin-Long",
+//            bio: "Almost goal speak his institution late magazine.",
+//            photo: URL(string: "https://placekitten.com/33/616")!,
+//            gender: "m",
+//            barId: nil
+//        )
+//    @State private var user: User? = nil
+    
     let items = [
-        Bar(name: "Coquetel-Bar",
+        Bar(
+            id: "657ed495dc43be55442b8538",
+            name: "Coquetel-Bar",
             longitude: 6.86235398027921,
             latitude: 47.63931306388334,
             capacity: "35",
             type: "bar",
             description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quam velit, vulputate eu pharetra nec, mattis ac neque."),
 
-        Bar(name: "Mandala - Café & bar",
+        Bar(
+            id: "657ed495dc43be55442b8539",
+            name: "Mandala - Café & bar",
             longitude: 6.862761676004622,
             latitude: 47.639323907444904,
             capacity: "30",
             type: "café bar",
             description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quam velit, vulputate eu pharetra nec, mattis ac neque."),
 
-        Bar(name: "Le bar à vins du Lion",
+        Bar(
+            id: "657ed495dc43be55442b853a",
+            name: "Le bar à vins du Lion",
             longitude: 6.863298117748583,
             latitude: 47.63901667232958,
             capacity: "40",
             type: "bar à vins",
             description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quam velit, vulputate eu pharetra nec, mattis ac neque."),
 
-        Bar(name: "L'Estaminet",
+        Bar(
+            id: "657ed495dc43be55442b853b",
+            name: "L'Estaminet",
             longitude: 6.8624237177059255,
             latitude: 47.63865521693967,
             capacity: "45",
             type: "bar",
             description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quam velit, vulputate eu pharetra nec, mattis ac neque."),
 
-        Bar(name: "Café bar les Marronniers",
+        Bar(
+            id: "657ed495dc43be55442b853c",
+            name: "Café bar les Marronniers",
             longitude: 6.8625739214845325,
             latitude: 47.63821062337903,
             capacity: "50",
@@ -172,7 +264,7 @@ struct MapView: View {
     ]
 
     var body: some View {
-        MapContent(items: items, selectedItem: $selectedItem)
+        MapContent(items: items, selectedItem: $selectedItem, user: $user)
     }
 }
 
