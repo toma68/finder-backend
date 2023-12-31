@@ -2,12 +2,12 @@
 //  Navbar.swift
 //  Finder
 //
-//  Created by user234363 on 12/17/23.
+//  Created by Maxime CRAYSSAC on 12/17/23.
 //
 
 import SwiftUI
 
-struct NavBar: View {   
+struct NavBarView: View {   
     var body: some View {
         TabView {
             LoginView()
@@ -49,5 +49,5 @@ struct Tab4View: View {
     }
 }
 #Preview {
-    NavBar()
+    NavBarView()
 }

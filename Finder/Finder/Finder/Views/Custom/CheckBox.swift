@@ -2,7 +2,7 @@
 //  CheckBox.swift
 //  Finder
 //
-//  Created by user234363 on 12/17/23.
+//  Created by Maxime CRAYSSAC on 12/17/23.
 //
 
 import SwiftUI

@@ -2,13 +2,13 @@
 //  Bar.swift
 //  Finder
 //
-//  Created by Hopy on 30/12/2023.
+//  Created by Maxime CRAYSSAC on 30/12/2023.
 //
 
 import Foundation
 import CoreLocation
 
-struct Bar: Identifiable {
+struct Bar: Identifiable, Equatable {
     var id: String
     var name: String
     var longitude: Double
