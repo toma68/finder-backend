@@ -33,3 +33,21 @@ struct TextCustomField: View {
         }.foregroundColor(currentColor).font(.system(size: 20, weight: .bold, design: .rounded))
     }
 }
+
+struct TextCustomFieldWithoutLabel: View {
+    @State var textPlacehorder: String
+    @State var currentColor: Color
+    @Binding var text: String
+
+    var body: some View {
+        VStack{
+            ZStack {
+                if text.isEmpty{
+                    Text(textPlacehorder)
+                }
+                
+                TextField(textPlacehorder, text: $text)
+            }.opacity(text.isEmpty ? 0.5 : 1).multilineTextAlignment(.center).background(.clear).padding(.bottom, 5).padding(.horizontal, 30)
+        }.foregroundColor(currentColor).font(.system(size: 20, weight: .bold, design: .rounded))
+    }
+}

@@ -13,11 +13,15 @@ load_dotenv()
 # Accessing variables
 mongodb_uri = os.getenv('MONGODB_URI')
 print("MONGODB_URI: ", mongodb_uri)
+if mongodb_uri is None:
+    raise Exception("MONGODB_URI environment variable not found!")
 
 app = Flask(__name__)
 
 # Create a new client and connect to the server
-client = MongoClient(mongodb_uri, server_api=ServerApi('1'))
+# !!! IMPORTANT !!!
+# tls and tlsAllowInvalidCertificates are used due to certificate issues on macOS
+client = MongoClient(mongodb_uri, server_api=ServerApi('1'), tls=True, tlsAllowInvalidCertificates=True)
 
 
 # ---------- Swagger ---------- #
@@ -48,7 +52,7 @@ def get_data():
         client.admin.command('ping')
         return jsonify({'message': 'Connected to MongoDB!'}), 200
     except Exception as e:
-        return jsonify({'error': e}), 500
+        return jsonify({'error': str(e)}), 500
     
     
 # ---------- Users ---------- #
@@ -68,7 +72,7 @@ def login():
             return jsonify({'message': 'Invalid request body!'}), 400
         user = client['finder']['users'].find_one({'name': request.json['name'], 'surname': request.json['surname']})
         if user is None:
-            return jsonify({'message': 'User not found!'}), 404
+            return jsonify({'message': 'User not found!'}), 401
         return json.dumps(user, default=json_util.default), 200
     except Exception as e:
         return jsonify({'error': e}), 500

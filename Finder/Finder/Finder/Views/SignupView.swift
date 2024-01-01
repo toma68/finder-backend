@@ -69,7 +69,7 @@ struct SignupView: View {
                 
                 Spacer()
                 
-                NavigationLink(destination: LoginView()) {
+                NavigationLink(destination: SignupView()) {
                     Image(systemName: "person.crop.circle.badge.plus")
                     Text("Become a finder")
                 }.frame(width: 250, height: 50).background(Color("LightBlue")).foregroundColor(.white).cornerRadius(10).padding(.bottom, 60).font(.system(size: 20, weight: .bold, design: .rounded))

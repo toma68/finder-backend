@@ -9,6 +9,8 @@ import SwiftUI
 
 struct NavBarView: View {   
     @State private var selectedTab = 0
+    @State private var user: User? = nil
+    @State private var users: [User] = []
     
     @State private var bars = [
         Bar(
@@ -56,37 +58,25 @@ struct NavBarView: View {
             type: "café bar",
             description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quam velit, vulputate eu pharetra nec, mattis ac neque.")
     ]
-    
-    @State private var user: User? = User(
-            id: "657ecff0151500481a95d0ed",
-            name: "Kayla",
-            surname: "Ramos",
-            company: "Irwin-Long",
-            bio: "Almost goal speak his institution late magazine.",
-            photo: URL(string: "https://img.freepik.com/photos-premium/bateau-lac-montagnes-arriere-plan_865967-5725.jpg")!,
-            gender: "m",
-            barId: "657ed495dc43be55442b8538"
-        )
-//    @State private var user: User? = User(
-//            id: "657ecff0151500481a95d0ed",
-//            name: "Kayla",
-//            surname: "Ramos",
-//            company: "Irwin-Long",
-//            bio: "Almost goal speak his institution late magazine.",
-//            photo: URL(string: "https://placekitten.com/33/616")!,
-//            gender: "m",
-//            barId: nil
-//        )
-//    @State private var user: User? = nil
-    
+
     var body: some View {
         TabView(selection: $selectedTab) {
-            LoginView()
-                .tabItem {
-                    Image(systemName: "person.crop.square")
-                    Text("Profile")
-                }
-                .tag(0)
+            if user != nil {
+                UserView(user: $user)
+                    .tabItem {
+                        Image(systemName: "person.crop.square")
+                        Text("Profile")
+                    }
+                    .tag(0)
+            } else {
+                LoginView(user: $user)
+                    .tabItem {
+                        Image(systemName: "person.crop.square")
+                        Text("Profile")
+                    }
+                    .tag(0)
+            }
+            
             
             BarsView(bars: bars)
                 .tabItem {
@@ -102,26 +92,40 @@ struct NavBarView: View {
                 }
                 .tag(2)
 
-            Tab4View()
+            UsersView(users: users)
                 .tabItem {
                     Image(systemName: "person.3")
                     Text("Users")
                 }
                 .tag(3)
         }.accentColor(Color("DarkBlue"))
+        .onAppear {
+                fetchUsers()
+            }
     }
-}
+    
+    private func fetchUsers() {
+            guard let url = URL(string: "http://127.0.0.1:5000/users") else {
+                print("Invalid URL")
+                return
+            }
 
-struct Tab2View: View {
-    var body: some View {
-        Text("Bar view")
-    }
-}
+            let task = URLSession.shared.dataTask(with: url) { data, response, error in
+                if let data = data {
+                    if let decodedResponse = try? JSONDecoder().decode([User].self, from: data) {
+                        DispatchQueue.main.async {
+                            self.users = decodedResponse
+                            print("Fetched \(self.users.count) users") // Debugging
+                        }
+                        return
+                    }
+                }
 
-struct Tab4View: View {
-    var body: some View {
-        Text("Users View")
-    }
+                // Handle errors or no data scenarios
+                print("Fetch failed: \(error?.localizedDescription ?? "Unknown error")")
+            }
+            task.resume()
+        }
 }
 
 

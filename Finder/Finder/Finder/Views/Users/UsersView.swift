@@ -1,16 +1,16 @@
 //
-//  BarView.swift
+//  UsersView.swift
 //  Finder
 //
-//  Created by Maxime CRAYSSAC on 31/12/2023.
+//  Created by Maxime CRAYSSAC on 01/01/2024.
 //
 
 import SwiftUI
 
-struct BarsView: View {
+struct UsersView: View {
     @State private var searchText = ""
-    @State var bars: [Bar] 
-    @State private var filteredArray: [Bar] = []
+    @State var users: [User]
+    @State private var filteredArray: [User] = []
 
     var body: some View {
         NavigationView {
@@ -24,7 +24,7 @@ struct BarsView: View {
                     
                     Spacer()
                     
-                    Text("Bars").colorInvert().font(.system(size: 30, weight: .bold, design: .rounded)).padding(.trailing, 50).bold()
+                    Text("Users").colorInvert().font(.system(size: 30, weight: .bold, design: .rounded)).padding(.trailing, 50).bold()
                 }
                 
                 Spacer()
@@ -34,7 +34,7 @@ struct BarsView: View {
                     
                     Spacer()
                     
-                    TextField("Search bar...", text: $searchText)
+                    TextField("Search user...", text: $searchText)
                         .onChange(of: searchText) { newValue in
                             filteredArray(with: newValue)
                         }
@@ -47,24 +47,24 @@ struct BarsView: View {
                 .padding(.horizontal, 20)
 
                 ScrollView {
-                    ForEach(filteredArray) { bar in
+                    ForEach(filteredArray) { user in
                         NavigationLink(destination: SignupView()) {
                             VStack(alignment: .center) {
-                                Text(bar.name).foregroundColor(.white).font(.system(size: 20, weight: .bold, design: .rounded)).padding(.vertical, 5)
+                                Text(user.name + " " + user.surname).foregroundColor(.white).font(.system(size: 20, weight: .bold, design: .rounded)).padding(.vertical, 5)
                                 
-                                HStack {
-                                    Image(systemName: "house.fill")
-                                    Text(":")
-                                    Text(bar.type)
-                                    
-                                    Spacer()
-                                    
-                                    Image(systemName: "person.3.fill")
-                                    Text(":")
-                                    Text("0" + " / " + bar.capacity)
-                                }.padding(.horizontal, 10).padding(.vertical, 5)
-                                
-                                Text(bar.description).foregroundColor(Color("LightGreen")).padding(.horizontal, 10).padding(.vertical, 5)
+//                                HStack {
+//                                    Image(systemName: "house.fill")
+//                                    Text(":")
+//                                    Text(bar.type)
+//                                    
+//                                    Spacer()
+//                                    
+//                                    Image(systemName: "person.3.fill")
+//                                    Text(":")
+//                                    Text("0" + " / " + bar.capacity)
+//                                }.padding(.horizontal, 10).padding(.vertical, 5)
+//                                
+//                                Text(bar.description).foregroundColor(Color("LightGreen")).padding(.horizontal, 10).padding(.vertical, 5)
                             }
                             .padding(12)
                             .frame(maxWidth: .infinity)
@@ -79,16 +79,16 @@ struct BarsView: View {
             }
             .background(LinearGradient(gradient: Gradient(colors: [Color("Blue"), Color("LightBlue"), Color("Yellow"), Color("LightGreen")]), startPoint: .topLeading, endPoint: .bottomTrailing))
             .onAppear {
-                filteredArray = bars
+                filteredArray = users
             }
         }
     }
 
     private func filteredArray(with query: String) {
         if query.isEmpty {
-            filteredArray = bars
+            filteredArray = users
         } else {
-            filteredArray = bars.filter { $0.name.lowercased().contains(query.lowercased()) }
+            filteredArray = users.filter { $0.name.lowercased().contains(query.lowercased()) }
         }
     }
 }
