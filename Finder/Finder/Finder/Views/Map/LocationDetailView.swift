@@ -10,6 +10,7 @@ import SwiftUI
 struct LocationDetailView: View {
     var item: Bar
     var onExit: () -> Void
+    var switchToLogin: () -> Void
     
     @Binding var user: User?
 
@@ -56,11 +57,10 @@ struct LocationDetailView: View {
                     }
                 }
                 else {
-                    NavigationLink(destination: SignupView()) {
-                        Image(systemName: "person.crop.circle.badge.plus")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .padding(10)
+                    Button(action: {
+                        switchToLogin()
+                    }) {
+                        Image(systemName: "person.crop.circle.badge.plus").padding(10)
                     }.background(Color("LightBlue"))
                     .foregroundColor(.white)
                     .cornerRadius(10)

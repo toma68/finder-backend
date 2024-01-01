@@ -8,9 +8,10 @@
 import SwiftUI
 
 struct LoginView: View {
-    
+
     @State var surname: String = "";
     @State var name: String = "";
+    var textColor: Color = Color("DarkBlue");
     
     var body: some View {
         NavigationView {
@@ -23,19 +24,21 @@ struct LoginView: View {
                     ProgressView()
                 }
                 
-                TextCustomField(textLabel: "Enter a surname", textPlacehorder: "John...", text: $surname)
+                TextCustomField(textLabel: "Enter a surname", textPlacehorder: "John...", currentColor: textColor, text: $surname)
                 
-                TextCustomField(textLabel: "Enter a name", textPlacehorder: "Wick...", text: $name)
+                TextCustomField(textLabel: "Enter a name", textPlacehorder: "Wick...", currentColor: textColor, text: $name)
                 
                 Spacer()
                 
                 NavigationLink(destination: SignupView()) {
-                    Text("Connect").frame(width: 250, height: 45).background(Color("LightBlue")).foregroundColor(.white).cornerRadius(10).font(.system(size: 20, weight: .bold, design: .rounded))
-                }
+                    Image(systemName: "person.fill")
+                    Text("Connect")
+                }.frame(width: 250, height: 45).background(Color("LightBlue")).foregroundColor(.white).cornerRadius(10).font(.system(size: 20, weight: .bold, design: .rounded))
                 
                 NavigationLink(destination: SignupView()) {
-                    Text("Signup").frame(width: 250, height: 45).foregroundColor(Color("Blue")).cornerRadius(10).padding(.bottom, 30).font(.system(size: 20, weight: .bold, design: .rounded))
-                }
+                    Image(systemName: "person.crop.circle.badge.plus")
+                    Text("Become a finder")
+                }.frame(width: 250, height: 45).foregroundColor(Color("Blue")).cornerRadius(10).padding(.bottom, 30).font(.system(size: 20, weight: .bold, design: .rounded))
             }.background(LinearGradient(gradient: Gradient(colors: [Color("Blue"), Color("LightBlue"), Color("Yellow"), Color("LightGreen")]), startPoint: .topLeading, endPoint: .bottomTrailing))
         }
     }

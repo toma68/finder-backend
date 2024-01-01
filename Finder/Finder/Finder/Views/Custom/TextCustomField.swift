@@ -9,20 +9,27 @@ import SwiftUI
 
 struct TextCustomField: View {
     @State var textLabel: String
+    @State var imageLabel: String? = nil
     @State var textPlacehorder: String
+    @State var currentColor: Color
     @Binding var text: String
 
     var body: some View {
         VStack{
-            Text(textLabel).frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, alignment: .leading).padding(.horizontal, 30).font(.headline).colorInvert()
+            HStack {
+                Image(systemName: imageLabel ?? "arrowshape.forward.fill")
+                
+                Text(textLabel)
+            }.frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, alignment: .leading).padding(.horizontal, 30)
+            
             
             ZStack {
                 if text.isEmpty{
-                    Text(textPlacehorder).foregroundStyle(.white)
+                    Text(textPlacehorder)
                 }
                 
-                TextField(textPlacehorder, text: $text).multilineTextAlignment(.center).background(.clear).foregroundColor(.white).padding(.bottom, 5).padding(.horizontal, 30)
-            }
-        }
+                TextField(textPlacehorder, text: $text)
+            }.opacity(text.isEmpty ? 0.5 : 1).multilineTextAlignment(.center).background(.clear).padding(.bottom, 5).padding(.horizontal, 30)
+        }.foregroundColor(currentColor).font(.system(size: 20, weight: .bold, design: .rounded))
     }
 }

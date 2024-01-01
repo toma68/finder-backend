@@ -16,11 +16,12 @@ struct SignupView: View {
     @State var bio: String = "";
     @State var photo: String = "";
     @State var gender: Int = 1;
+    var textColor: Color = Color("DarkBlue")
     
     private var items: [CheckboxItem] = [
-        CheckboxItem(id: 1, label: "Man"),
-        CheckboxItem(id: 2, label: "Woman"),
-        CheckboxItem(id: 3, label: "Neutral")
+        CheckboxItem(id: 1, label: "Man", image: "mustache.fill"),
+        CheckboxItem(id: 2, label: "Woman", image: "mouth.fill"),
+        CheckboxItem(id: 3, label: "Neutral", image: "figure.child")
     ]
     
     var columns = [
@@ -48,20 +49,20 @@ struct SignupView: View {
                 
                 Spacer()
                 
-                TextCustomField(textLabel: "Enter a surname", textPlacehorder: "Surname", text: $surname)
+                TextCustomField(textLabel: "Enter a surname", textPlacehorder: "Surname", currentColor: textColor, text: $surname)
                 
-                TextCustomField(textLabel: "Enter a name", textPlacehorder: "Name", text: $name)
+                TextCustomField(textLabel: "Enter a name", textPlacehorder: "Name", currentColor: textColor, text: $name)
                 
-                TextCustomField(textLabel: "Enter a company", textPlacehorder: "Company", text: $company)
+                TextCustomField(textLabel: "Enter a company", imageLabel: "house.fill", textPlacehorder: "Company", currentColor: textColor, text: $company)
                 
-                TextCustomField(textLabel: "Enter a bio", textPlacehorder: "Bio...", text: $bio)
+                TextCustomField(textLabel: "Enter a bio", imageLabel: "scroll.fill", textPlacehorder: "Bio...", currentColor: textColor, text: $bio)
                 
-                TextCustomField(textLabel: "Enter a photo URL", textPlacehorder: "photo.com", text: $photo)
+                TextCustomField(textLabel: "Enter a photo URL", imageLabel: "photo.fill", textPlacehorder: "photo.com", currentColor: textColor, text: $photo)
                 
                 VStack {
                     LazyVGrid(columns: columns, spacing: 20) {
                         ForEach(items) { item in
-                            CheckboxView(item: item, selectedID: $gender)
+                            CheckboxView(item: item, currentColor: Color("DarkBlue"), selectedID: $gender)
                         }
                     }.padding(.horizontal, 5).padding(.vertical).padding(.horizontal, 30)
                 }.padding(.vertical, 5)
@@ -69,8 +70,9 @@ struct SignupView: View {
                 Spacer()
                 
                 NavigationLink(destination: LoginView()) {
-                    Text("Create account !").frame(width: 250, height: 50).background(Color("LightBlue")).foregroundColor(.white).cornerRadius(10).padding(.bottom, 60).font(.system(size: 20, weight: .bold, design: .rounded))
-                }
+                    Image(systemName: "person.crop.circle.badge.plus")
+                    Text("Become a finder")
+                }.frame(width: 250, height: 50).background(Color("LightBlue")).foregroundColor(.white).cornerRadius(10).padding(.bottom, 60).font(.system(size: 20, weight: .bold, design: .rounded))
                 
             }.background(LinearGradient(gradient: Gradient(colors: [Color("Blue"), Color("LightBlue"), Color("Yellow"), Color("LightGreen")]), startPoint: .topLeading, endPoint: .bottomTrailing))
         }

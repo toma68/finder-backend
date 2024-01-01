@@ -11,7 +11,7 @@ import SwiftUI
 struct FinderApp: App {
     var body: some Scene {
         WindowGroup {
-            
+            NavBarView()
         }
     }
 }

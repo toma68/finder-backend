@@ -10,17 +10,19 @@ import SwiftUI
 
 struct MapContentView: View {
     private var items: [Bar]
+    var switchToLogin: () -> Void
     @Binding private var selectedItem: Bar?
     @Binding private var user: User?
     @State private var region: MKCoordinateRegion
     private var zoom : Double
 
-    init(items: [Bar], selectedItem: Binding<Bar?>, user: Binding<User?>, zoom: Double) {
+    init(items: [Bar], selectedItem: Binding<Bar?>, user: Binding<User?>, zoom: Double, switchToLogin: @escaping () -> Void) {
         self.items = items
         self._selectedItem = selectedItem
         self._user = user
-        self._region = State(initialValue: calculateRegion(for: items))
         self.zoom = zoom
+        self.switchToLogin = switchToLogin
+        self._region = State(initialValue: calculateRegion(for: items))
     }
 
     private func centerMapOnLocation(location: Bar) {
@@ -44,7 +46,7 @@ struct MapContentView: View {
         .overlay(
             Group {
                 if let selectedItem = selectedItem {
-                    LocationDetailView(item: selectedItem, onExit: { self.selectedItem = nil }, user: $user)
+                    LocationDetailView(item: selectedItem, onExit: { self.selectedItem = nil }, switchToLogin: switchToLogin, user: $user)
                 }
             }.offset(y: -25),
             alignment: .bottom
