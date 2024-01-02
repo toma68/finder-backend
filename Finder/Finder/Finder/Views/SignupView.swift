@@ -49,9 +49,9 @@ struct SignupView: View {
                 
                 Spacer()
                 
-                TextCustomField(textLabel: "Enter a surname", textPlacehorder: "Surname", currentColor: textColor, text: $surname)
+                TextCustomField(textLabel: "Enter a surname", imageLabel: "rectangle.and.pencil.and.ellipsis", textPlacehorder: "Surname", currentColor: textColor, text: $surname)
                 
-                TextCustomField(textLabel: "Enter a name", textPlacehorder: "Name", currentColor: textColor, text: $name)
+                TextCustomField(textLabel: "Enter a name", imageLabel: "rectangle.and.pencil.and.ellipsis", textPlacehorder: "Name", currentColor: textColor, text: $name)
                 
                 TextCustomField(textLabel: "Enter a company", imageLabel: "house.fill", textPlacehorder: "Company", currentColor: textColor, text: $company)
                 

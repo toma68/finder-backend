@@ -35,26 +35,29 @@ struct UserView: View {
                 Spacer()
                 
                 Text("Profile editing").foregroundStyle(Color.white).font(.system(size: 30, weight: .bold, design: .rounded)).padding(.trailing, 50).bold()
-            }.padding(.top, 10)
+            }.padding(.top, 20)
             
             Spacer()
             
             HStack {
-                Image(systemName: "person.fill")
-                Text(":")
+                Image(systemName: "rectangle.and.pencil.and.ellipsis")
                 
                 TextCustomFieldWithoutLabel(textPlacehorder: name, currentColor: currentColor, text: $name)
                 
                 TextCustomFieldWithoutLabel(textPlacehorder: surname, currentColor: currentColor, text: $surname)
-            }.padding(.horizontal, 20)
+            }.padding(.horizontal, 40).padding(.vertical, 10)
             
             HStack {
                 Image(systemName: "house.fill")
-                Text(":")
                 
                 TextCustomFieldWithoutLabel(textPlacehorder: company, currentColor: currentColor, text: $company)
-            }.padding(.horizontal, 20)
+            }.padding(.horizontal, 40).padding(.vertical, 10)
             
+            HStack {
+                Image(systemName: "text.bubble")
+                
+                Spacer()
+            }.frame(maxWidth: .infinity).padding(.horizontal, 40)
             
             ZStack {
                 if bio.isEmpty{
@@ -62,29 +65,53 @@ struct UserView: View {
                 }
                 
                 TextEditor(text: $bio)
-                    .frame(maxHeight: 200)
+                    .frame(maxHeight: 100)
                     .scrollContentBackground(.hidden)
                     .background(.clear)
                     .overlay(
                         RoundedRectangle(cornerRadius: 10)
                             .stroke(bio.isEmpty ? Color.clear : Color.gray, lineWidth: 1)
                     )
-            }.opacity(bio.isEmpty ? 0.5 : 1).multilineTextAlignment(.center).background(.clear).padding(.bottom, 5).padding(.horizontal, 30)
+            }.opacity(bio.isEmpty ? 0.5 : 1).multilineTextAlignment(.center).background(.clear).padding(.bottom, 5).padding(.horizontal, 30).padding(.vertical, 10)
             
             HStack {
                 Image(systemName: "photo.fill")
-                Text(":")
                 
-                TextCustomFieldWithoutLabel(textPlacehorder: photoString, currentColor: currentColor, text: $photoString)
-            }.padding(.horizontal, 20)
+                Spacer()
+            }.padding(.horizontal, 40)
+            
+            ZStack {
+                if photoString.isEmpty{
+                    Text(photoString)
+                }
+                
+                TextEditor(text: $photoString)
+                    .frame(maxHeight: 100)
+                    .scrollContentBackground(.hidden)
+                    .background(.clear)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 10)
+                            .stroke(photoString.isEmpty ? Color.clear : Color.gray, lineWidth: 1)
+                    )
+            }.opacity(photoString.isEmpty ? 0.5 : 1).multilineTextAlignment(.center).background(.clear).padding(.bottom, 5).padding(.horizontal, 30).padding(.vertical, 10)
             
             Spacer()
             
-            Button(action: {
-                updateUser(name: name, surname: surname, company: company, bio: bio, photoString: photoString)
-            }) {
-                Text("Update account")
-            }.frame(width: 250, height: 45).background(Color("LightBlue")).foregroundColor(.white).cornerRadius(10).font(.system(size: 20, weight: .bold, design: .rounded)).padding(.bottom, 10)
+            HStack {
+                Button(action: {
+                    updateUser(name: name, surname: surname, company: company, bio: bio, photoString: photoString)
+                }) {
+                    Image(systemName: "book.pages.fill")
+                    Text("Update infos")
+                }.frame(width: 175, height: 40).background(Color("LightBlue")).foregroundColor(.white).cornerRadius(10).font(.system(size: 16, weight: .bold, design: .rounded)).padding(.bottom, 10)
+                
+                Button(action: {
+                    user = nil
+                }) {
+                    Image(systemName: "person.slash.fill")
+                    Text("Disconnect")
+                }.frame(width: 175, height: 40).background(Color("Orange")).foregroundColor(.white).cornerRadius(10).font(.system(size: 16, weight: .bold, design: .rounded)).padding(.bottom, 10)
+            }.padding(.bottom, 20)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(LinearGradient(gradient: Gradient(colors: [Color("Blue"), Color("LightBlue"), Color("Yellow"), Color("LightGreen")]), startPoint: .topLeading, endPoint: .bottomTrailing))

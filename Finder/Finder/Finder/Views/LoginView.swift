@@ -26,22 +26,22 @@ struct LoginView: View {
                     ProgressView()
                 }
                 
-                TextCustomField(textLabel: "Enter a name", textPlacehorder: "John...", currentColor: textColor, text: $name)
+                TextCustomField(textLabel: "Enter a name", imageLabel: "rectangle.and.pencil.and.ellipsis", textPlacehorder: "John...", currentColor: textColor, text: $name)
                 
-                TextCustomField(textLabel: "Enter a surname", textPlacehorder: "Wick...", currentColor: textColor, text: $surname)
+                TextCustomField(textLabel: "Enter a surname", imageLabel: "rectangle.and.pencil.and.ellipsis", textPlacehorder: "Wick...", currentColor: textColor, text: $surname)
                 
                 Spacer()
                 
-                Button(action: {
-                    loginUser(name: name, surname: surname)
-                }) {
-                    Image(systemName: "person.fill")
-                    Text("Connect")
-                }.frame(width: 250, height: 45).background(Color("LightBlue")).foregroundColor(.white).cornerRadius(10).font(.system(size: 20, weight: .bold, design: .rounded))
-                
-                Text(loginStatusMessage)
-                                .foregroundColor(.red)
-                                .padding()
+                if !loginStatusMessage.isEmpty {
+                    Text(loginStatusMessage).foregroundColor(.red).padding()
+                } else {
+                    Button(action: {
+                        loginUser(name: name, surname: surname)
+                    }) {
+                        Image(systemName: "person.fill")
+                        Text("Connect")
+                    }.frame(width: 250, height: 45).background(Color("LightBlue")).foregroundColor(.white).cornerRadius(10).font(.system(size: 20, weight: .bold, design: .rounded))
+                }
                 
                 NavigationLink(destination: SignupView()) {
                     Image(systemName: "person.crop.circle.badge.plus")
@@ -75,6 +75,10 @@ struct LoginView: View {
                 if httpResponse.statusCode != 200 && httpResponse.statusCode != 401 {
                     DispatchQueue.main.async {
                         self.loginStatusMessage = "Internal error"
+                        
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                            self.loginStatusMessage = ""
+                        }
                     }
                 } else if let error = error {
                     print("Error: \(error.localizedDescription)")
@@ -84,17 +88,24 @@ struct LoginView: View {
                             let loggedInUser = try JSONDecoder().decode(User.self, from: data)
                             DispatchQueue.main.async {
                                 self.user = loggedInUser
-                                self.loginStatusMessage = "Login successful"
                             }
                         } catch {
                             DispatchQueue.main.async {
                                 self.loginStatusMessage = "Failed to decode user data"
+                                
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                                    self.loginStatusMessage = ""
+                                }
                             }
                             print("Decoding error: \(error)")
                         }
                     } else {
                         DispatchQueue.main.async {
                             self.loginStatusMessage = "Wrong name or surname"
+                            
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                                self.loginStatusMessage = ""
+                            }
                         }
                         
                     }
