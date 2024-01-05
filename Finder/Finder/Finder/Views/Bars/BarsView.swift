@@ -49,7 +49,7 @@ struct BarsView: View {
                     
                     ScrollView {
                         ForEach(filteredArray) { bar in
-                            NavigationLink(destination: EmptyView()) {
+                            NavigationLink(destination: BarView(selectedBar: bar)) {
                                 VStack(alignment: .center) {
                                     Text(bar.name).foregroundColor(.white).font(.system(size: 20, weight: .bold, design: .rounded)).padding(.vertical, 5)
                                     
@@ -71,7 +71,7 @@ struct BarsView: View {
                                 .frame(maxWidth: .infinity)
                                 .background(Color("DarkBlue"))
                                 .cornerRadius(10)
-                                .shadow(radius: 5)
+                                .shadow(radius: 2)
                             }
                         }
                     }

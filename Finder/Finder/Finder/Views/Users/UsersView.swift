@@ -7,12 +7,106 @@
 
 import SwiftUI
 
+struct UserRowView: View {
+    let user: User
+    let checkBoxItems: [CheckboxItem]
+
+    var body: some View {
+        HStack {
+            AsyncImage(url: user.photo) { image in
+                image.resizable()
+                    .frame(width: 50, height: 50)
+                    .clipShape(Circle())
+                    .overlay(Circle().stroke(Color.white, lineWidth: 1))
+            } placeholder: {
+                ProgressView()
+            }
+
+            Spacer()
+
+            UserInfoView(user: user, checkBoxItems: checkBoxItems)
+        }
+        .padding(.horizontal, 30)
+        .padding(.vertical, 20)
+    }
+}
+
+struct UserInfoView: View {
+    let user: User
+    let checkBoxItems: [CheckboxItem]
+
+    var body: some View {
+        VStack (alignment: .trailing, spacing: 1) {
+            Text(user.name + " " + user.surname)
+                .foregroundColor(.white)
+                .font(.system(size: 20, weight: .bold, design: .rounded))
+            
+            if let genderItem = checkBoxItems.first(where: { $0.value == user.gender }) {
+                Label(genderItem.label, systemImage: genderItem.image)
+            }
+
+            Label(user.company, systemImage: "house.fill")
+        }
+        .frame(maxWidth: .infinity, alignment: .trailing)
+        .foregroundColor(Color("DarkBlue"))
+        .font(.system(size: 12, weight: .bold, design: .rounded))
+    }
+}
+
+struct UserEltView: View {
+    @Binding var checkBoxItems: [CheckboxItem]
+    @Binding var filteredArray: [User]
+    var switchToMap: (BarWithUsers) -> Void
+    
+    var body: some View {
+            ScrollView {
+                ForEach(filteredArray) { user in
+                    NavigationLink(destination: UserView(user: user, currentColor: gradientColor(for: user.gender), switchToMap: switchToMap, checkBoxItems: $checkBoxItems)) {
+                        UserRowView(user: user, checkBoxItems: checkBoxItems)
+                            .background(backgroundColor(for: user.gender))
+                            .cornerRadius(10)
+                            .shadow(radius: 2)
+                    }
+                }
+            }
+            .padding(20)
+        }
+    
+    func gradientColor(for gender: String) -> LinearGradient {
+        switch gender {
+        case "m":
+            return LinearGradient(gradient: Gradient(colors: [Color("DarkGreen"), Color("LightGreen")]), startPoint: .topLeading, endPoint: .bottomTrailing)
+        case "w":
+            return LinearGradient(gradient: Gradient(colors: [Color("Orange"), Color("Yellow")]), startPoint: .topLeading, endPoint: .bottomTrailing)
+        case "n":
+            return LinearGradient(gradient: Gradient(colors: [Color("Blue"), Color("LightBlue")]), startPoint: .topLeading, endPoint: .bottomTrailing)
+        default:
+            return LinearGradient(gradient: Gradient(colors: [Color.gray]), startPoint: .topLeading, endPoint: .bottomTrailing)
+        }
+    }
+    
+    func backgroundColor(for gender: String) -> AnyView {
+        switch gender {
+        case "m":
+            return AnyView(LinearGradient(gradient: Gradient(colors: [Color("DarkGreen"), Color("LightGreen")]), startPoint: .topLeading, endPoint: .bottomTrailing))
+        case "w":
+            return AnyView(LinearGradient(gradient: Gradient(colors: [Color("Orange"), Color("Yellow")]), startPoint: .topLeading, endPoint: .bottomTrailing))
+        case "n":
+            return AnyView(LinearGradient(gradient: Gradient(colors: [Color("Blue"), Color("LightBlue")]), startPoint: .topLeading, endPoint: .bottomTrailing))
+        default:
+            return AnyView(Color.gray)
+        }
+    }
+}
+
 struct UsersView: View {
     @Binding var checkBoxItems: [CheckboxItem]
     @State private var searchText = ""
     @State var users: [User] = []
     @State private var filteredArray: [User] = []
     @State private var genderFilter: String? = nil
+    @Binding var selectedTab: Int
+    @Binding var selectedBar: BarWithUsers?
 
     var body: some View {
         NavigationView {
@@ -59,47 +153,8 @@ struct UsersView: View {
                     .cornerRadius(8)
                     .padding(.top, 10)
                     .padding(.horizontal, 20)
-
-                    ScrollView {
-                        ForEach(filteredArray) { user in
-                            NavigationLink(destination: UserView(user: user, currentColor: gradientColor(for: user.gender), checkBoxItems: $checkBoxItems)) {
-                                VStack(alignment: .center) {
-                                    HStack {
-                                        AsyncImage(url: user.photo) { image in
-                                            image.resizable()
-                                                .frame(width: 50, height: 50)
-                                                .clipShape(Circle())
-                                                .overlay(Circle().stroke(Color.white, lineWidth: 1))
-                                        } placeholder: {
-                                            ProgressView()
-                                        }
-                                        
-                                        Spacer()
-                                        
-                                        VStack (alignment: .trailing, spacing: 1) {
-                                            Text(user.name + " " + user.surname).foregroundColor(.white).font(.system(size: 20, weight: .bold, design: .rounded))
-                                            
-                                            if let genderItem = checkBoxItems.first(where: { $0.value == user.gender }) {
-                                                Label(genderItem.label, systemImage: genderItem.image)
-                                            }
-                                            
-                                            Label(user.company, systemImage: "house.fill")
-                                        }.frame(maxWidth: .infinity, alignment: .trailing).foregroundColor(Color("DarkBlue")).font(.system(size: 12, weight: .bold, design: .rounded))
-                                    }
-                                    .padding(.horizontal, 30)
-                                    .padding(.vertical, 20)
-             
-                                }
-                                .padding(12)
-                                .frame(maxWidth: .infinity)
-                                .background(backgroundColor(for: user.gender))
-                                .cornerRadius(10)
-                                .shadow(radius: 5)
-                            }
-                        }
-                    }
-                    .foregroundColor(Color("LightBlue")).font(.system(size: 17, weight: .bold, design: .rounded))
-                    .padding(20)
+                    
+                    UserEltView(checkBoxItems: $checkBoxItems, filteredArray: $filteredArray, switchToMap: mapView)
                 }
                 .background(LinearGradient(gradient: Gradient(colors: [Color("Blue"), Color("LightBlue"), Color("Yellow"), Color("LightGreen")]), startPoint: .topLeading, endPoint: .bottomTrailing))
                 .onAppear {
@@ -118,6 +173,11 @@ struct UsersView: View {
                 }
             }
         }
+    }
+    
+    private func mapView(selectedBar: BarWithUsers) {
+        selectedTab = 2
+        self.selectedBar = selectedBar
     }
     
     private func setGenderFilter(_ gender: String?) {
@@ -141,32 +201,6 @@ struct UsersView: View {
             filteredArray = users
         } else {
             filteredArray = users.filter { $0.name.lowercased().contains(query.lowercased()) }
-        }
-    }
-    
-    func backgroundColor(for gender: String) -> AnyView {
-        switch gender {
-        case "m":
-            return AnyView(LinearGradient(gradient: Gradient(colors: [Color("DarkGreen"), Color("LightGreen")]), startPoint: .topLeading, endPoint: .bottomTrailing))
-        case "w":
-            return AnyView(LinearGradient(gradient: Gradient(colors: [Color("Orange"), Color("Yellow")]), startPoint: .topLeading, endPoint: .bottomTrailing))
-        case "n":
-            return AnyView(LinearGradient(gradient: Gradient(colors: [Color("Blue"), Color("LightBlue")]), startPoint: .topLeading, endPoint: .bottomTrailing))
-        default:
-            return AnyView(Color.gray)
-        }
-    }
-    
-    func gradientColor(for gender: String) -> LinearGradient {
-        switch gender {
-        case "m":
-            return LinearGradient(gradient: Gradient(colors: [Color("DarkGreen"), Color("LightGreen")]), startPoint: .topLeading, endPoint: .bottomTrailing)
-        case "w":
-            return LinearGradient(gradient: Gradient(colors: [Color("Orange"), Color("Yellow")]), startPoint: .topLeading, endPoint: .bottomTrailing)
-        case "n":
-            return LinearGradient(gradient: Gradient(colors: [Color("Blue"), Color("LightBlue")]), startPoint: .topLeading, endPoint: .bottomTrailing)
-        default:
-            return LinearGradient(gradient: Gradient(colors: [Color.gray]), startPoint: .topLeading, endPoint: .bottomTrailing)
         }
     }
     

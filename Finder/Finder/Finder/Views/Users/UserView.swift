@@ -10,6 +10,7 @@ import SwiftUI
 struct UserView: View {
     var user: User?
     var currentColor: LinearGradient
+    var switchToMap: (BarWithUsers) -> Void
     @Binding var checkBoxItems: [CheckboxItem]
     @State private var barData: BarWithUsers?
     
@@ -36,30 +37,34 @@ struct UserView: View {
                 Label(currentUser.bio, systemImage: "text.bubble").padding(.vertical, 10)
                 
                 if let barData = barData {
-                    VStack(alignment: .center) {
-                        Text("In " + barData.name).foregroundColor(.white).font(.system(size: 20, weight: .bold, design: .rounded)).padding(.vertical, 5)
-                        
-                        HStack {
-                            Image(systemName: "house.fill")
-                            Text(":")
-                            Text(barData.type)
+                    Button (action: {
+                        switchToMap(barData)
+                    }) {
+                        VStack(alignment: .center) {
+                            Text("In " + barData.name).foregroundColor(.white).font(.system(size: 20, weight: .bold, design: .rounded)).padding(.vertical, 5)
                             
-                            Spacer()
+                            HStack {
+                                Image(systemName: "house.fill")
+                                Text(":")
+                                Text(barData.type)
+                                
+                                Spacer()
+                                
+                                Image(systemName: "person.3.fill")
+                                Text(":")
+                                Text(String(barData.usersInBar.count) + "/" + barData.capacity)
+                            }.padding(.horizontal, 10).padding(.vertical, 5)
                             
-                            Image(systemName: "person.3.fill")
-                            Text(":")
-                            Text(String(barData.usersInBar.count) + "/" + barData.capacity)
-                        }.padding(.horizontal, 10).padding(.vertical, 5)
-                        
-                        Text(barData.description).foregroundColor(Color("LightGreen")).padding(.horizontal, 10).padding(.vertical, 5)
+                            Text(barData.description).foregroundColor(Color("LightGreen")).padding(.horizontal, 10).padding(.vertical, 5)
+                        }
+                        .foregroundColor(Color("LightBlue")).font(.system(size: 16, weight: .bold, design: .rounded)).padding(.vertical, 5)
+                        .padding(12)
+                        .frame(maxWidth: .infinity)
+                        .background(Color("DarkBlue"))
+                        .cornerRadius(10)
+                        .shadow(radius: 5)
+                        .padding(20)
                     }
-                    .foregroundColor(Color("LightBlue")).font(.system(size: 16, weight: .bold, design: .rounded)).padding(.vertical, 5)
-                    .padding(12)
-                    .frame(maxWidth: .infinity)
-                    .background(Color("DarkBlue"))
-                    .cornerRadius(10)
-                    .shadow(radius: 5)
-                    .padding(20)
                 }
                 
                 Spacer()

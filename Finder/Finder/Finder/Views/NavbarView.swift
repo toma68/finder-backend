@@ -9,6 +9,7 @@ import SwiftUI
 
 struct NavBarView: View {   
     @State private var selectedTab = 0
+    @State private var selectedBar: BarWithUsers? = nil
     @State private var user: User? = nil
     
     @State private var checkBoxItems: [CheckboxItem] = [
@@ -43,14 +44,14 @@ struct NavBarView: View {
                 }
                 .tag(1)
             
-            MapView(user: $user, selectedTab: $selectedTab)
+            MapView(selectedItem: $selectedBar, user: $user, selectedTab: $selectedTab)
                 .tabItem {
                     Image(systemName: "map")
                     Text("Map")
                 }
                 .tag(2)
 
-            UsersView(checkBoxItems: $checkBoxItems)
+            UsersView(checkBoxItems: $checkBoxItems, selectedTab: $selectedTab, selectedBar: $selectedBar)
                 .tabItem {
                     Image(systemName: "person.3")
                     Text("Users")

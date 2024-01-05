@@ -34,7 +34,7 @@ func calculateRegion(for items: [BarWithUsers]) -> MKCoordinateRegion {
 
 
 struct MapView: View {
-    @State var selectedItem: BarWithUsers?
+    @Binding var selectedItem: BarWithUsers?
     @State private var bars: [BarWithUsers] = []
     @Binding var user: User?
     @Binding var selectedTab: Int

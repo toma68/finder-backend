@@ -19,6 +19,7 @@
 		F6117DCF2B48135A007364BF /* UserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6117DCE2B48135A007364BF /* UserView.swift */; };
 		F6117DD12B482E3B007364BF /* CheckBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6117DD02B482E3B007364BF /* CheckBox.swift */; };
 		F6117DD32B484FAE007364BF /* BarWithUsers.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6117DD22B484FAE007364BF /* BarWithUsers.swift */; };
+		F6117DD52B48BF1C007364BF /* BarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6117DD42B48BF1C007364BF /* BarView.swift */; };
 		F67CBFD72B40CD6F00FB1B4E /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = F67CBFD62B40CD6F00FB1B4E /* User.swift */; };
 		F67CBFD92B40D68100FB1B4E /* Bar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F67CBFD82B40D68100FB1B4E /* Bar.swift */; };
 		F68AC95F2B4198E60035750B /* MapContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F68AC95E2B4198E60035750B /* MapContentView.swift */; };
@@ -43,6 +44,7 @@
 		F6117DCE2B48135A007364BF /* UserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserView.swift; sourceTree = "<group>"; };
 		F6117DD02B482E3B007364BF /* CheckBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckBox.swift; sourceTree = "<group>"; };
 		F6117DD22B484FAE007364BF /* BarWithUsers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarWithUsers.swift; sourceTree = "<group>"; };
+		F6117DD42B48BF1C007364BF /* BarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarView.swift; sourceTree = "<group>"; };
 		F67CBFD62B40CD6F00FB1B4E /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		F67CBFD82B40D68100FB1B4E /* Bar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bar.swift; sourceTree = "<group>"; };
 		F68AC95E2B4198E60035750B /* MapContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapContentView.swift; sourceTree = "<group>"; };
@@ -165,6 +167,7 @@
 			isa = PBXGroup;
 			children = (
 				F68AC9652B41EEC10035750B /* BarsView.swift */,
+				F6117DD42B48BF1C007364BF /* BarView.swift */,
 			);
 			path = Bars;
 			sourceTree = "<group>";
@@ -251,6 +254,7 @@
 			files = (
 				E23211202B3885BC00348C94 /* MapView.swift in Sources */,
 				E22512FB2B2F3D6100E84B5D /* CheckBoxView.swift in Sources */,
+				F6117DD52B48BF1C007364BF /* BarView.swift in Sources */,
 				F68AC9612B4199CD0035750B /* LocationDetailView.swift in Sources */,
 				F6117DCF2B48135A007364BF /* UserView.swift in Sources */,
 				1EDEE4F32B2C5B1400E45037 /* SignupView.swift in Sources */,
