@@ -7,18 +7,7 @@
 
 import Foundation
 
-//struct User: Identifiable {
-//    var id: String
-//    var name: String
-//    var surname: String
-//    var company: String
-//    var bio: String
-//    var photo: URL
-//    var gender: String
-//    var barId: String?
-//}
-
-struct User: Identifiable, Decodable {
+struct User: Identifiable, Decodable, Equatable {
     var id: String
     var name: String
     var surname: String
@@ -52,7 +41,7 @@ struct User: Identifiable, Decodable {
         if let barIdContainer = try? container.nestedContainer(keyedBy: IDKeys.self, forKey: .barId) {
             barId = try barIdContainer.decode(String.self, forKey: .oid)
         } else {
-            barId = nil // For cases where bar_id is null
+            barId = nil
         }
     }
 }

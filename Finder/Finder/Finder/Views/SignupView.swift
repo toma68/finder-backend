@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct SignupView: View {
-    
+    @Binding var items: [CheckboxItem]
     @State var surname: String = "";
     @State var name: String = "";
     @State var company: String = "";
@@ -17,12 +17,6 @@ struct SignupView: View {
     @State var photo: String = "";
     @State var gender: Int = 1;
     var textColor: Color = Color("DarkBlue")
-    
-    private var items: [CheckboxItem] = [
-        CheckboxItem(id: 1, label: "Man", image: "mustache.fill"),
-        CheckboxItem(id: 2, label: "Woman", image: "mouth.fill"),
-        CheckboxItem(id: 3, label: "Neutral", image: "figure.child")
-    ]
     
     var columns = [
         GridItem(.flexible()),
@@ -69,18 +63,12 @@ struct SignupView: View {
                 
                 Spacer()
                 
-                NavigationLink(destination: SignupView()) {
+                NavigationLink(destination: EmptyView()) {
                     Image(systemName: "person.crop.circle.badge.plus")
                     Text("Become a finder")
                 }.frame(width: 250, height: 50).background(Color("LightBlue")).foregroundColor(.white).cornerRadius(10).padding(.bottom, 60).font(.system(size: 20, weight: .bold, design: .rounded))
                 
             }.background(LinearGradient(gradient: Gradient(colors: [Color("Blue"), Color("LightBlue"), Color("Yellow"), Color("LightGreen")]), startPoint: .topLeading, endPoint: .bottomTrailing))
         }
-    }
-}
-
-struct SignupView_Previews: PreviewProvider {
-    static var previews: some View {
-        SignupView()
     }
 }

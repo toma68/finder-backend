@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct MarkerView: View {
-    var item: Bar
-    @Binding var selectedItem: Bar?
+    var item: BarWithUsers
+    @Binding var selectedItem: BarWithUsers?
     var onTap: () -> Void
 
     var body: some View {

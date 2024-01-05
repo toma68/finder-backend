@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct LocationDetailView: View {
-    var item: Bar
+    var item: BarWithUsers
     var onExit: () -> Void
     var switchToLogin: () -> Void
     
@@ -33,7 +33,7 @@ struct LocationDetailView: View {
                 
                 Spacer()
                 
-                Text("0" + " / " + item.capacity)
+                Text(String(item.usersInBar.count) + " / " + item.capacity)
                 
                 Spacer()
                 
@@ -79,11 +79,11 @@ struct LocationDetailView: View {
         .shadow(radius: 5)
     }
 
-    private func enterBar(item: Bar) {
+    private func enterBar(item: BarWithUsers) {
         user?.barId = item.id
     }
 
-    private func leaveBar(item: Bar) {
+    private func leaveBar(item: BarWithUsers) {
         user?.barId = nil
     }
 }

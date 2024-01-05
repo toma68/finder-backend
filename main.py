@@ -1,4 +1,4 @@
-from bson import json_util
+from bson import json_util, ObjectId
 from dotenv import load_dotenv
 from flask import Flask, jsonify, request, send_from_directory
 from flask_swagger_ui import get_swaggerui_blueprint
@@ -138,9 +138,14 @@ def get_users_bars():
 @app.route('/bars', methods=['GET'])
 def get_bars():
     try:
-        if request.args is None or 'name' not in request.args:
+        if request.args is None or '_id' not in request.args:
             return json.dumps(list(client['finder']['bars'].find()), default=json_util.default), 200
-        bar = client['finder']['bars'].find_one({'name': request.args['name']})
+        bar_id = request.args['_id']
+        try:
+            oid = ObjectId(bar_id)
+        except:
+            return jsonify({'error': 'Invalid _id format'}), 400
+        bar = client['finder']['bars'].find_one({'_id': oid})
         if bar is None:
             return json.dumps(list(client['finder']['bars'].find()), default=json_util.default), 200
         return json.dumps(bar, default=json_util.default), 200
@@ -151,45 +156,32 @@ def get_bars():
 @app.route('/bars/users', methods=['GET'])
 def get_bars_users():
     try:
-        if request.args is None or 'name' not in request.args:
-            pipeline = [
-                { "$lookup": {                     
-                    "from": "users",
-                    "localField": "_id",
-                    "foreignField": "bar_id",
-                    "as": "users_in_bar"
-                }}
-            ]
-            bars = client['finder']['bars'].aggregate(pipeline)
-            return json.dumps(list(bars), default=json_util.default), 200
-
         pipeline = [
-            { "$match": {"name": request.args['name']} },  
-            { "$lookup": {                      
-                "from": "users",
-                "localField": "_id",
-                "foreignField": "bar_id",
-                "as": "users_in_bar"
-            }}
-        ]
-        bar = client['finder']['bars'].aggregate(pipeline)
-
-        if bar is None:
-
-            pipeline = [
-                { "$lookup": {                      
+            {
+                "$lookup": {                     
                     "from": "users",
                     "localField": "_id",
                     "foreignField": "bar_id",
                     "as": "users_in_bar"
-                }}
-            ]
-            bars = client['finder']['bars'].aggregate(pipeline)
-            return json.dumps(list(bars), default=json_util.default), 200
-        
-        return json.dumps(list(bar), default=json_util.default), 200
+                }
+            }
+        ]
+        if request.args.get('_id'):
+            try:
+                bar_id = ObjectId(request.args['_id'])
+                pipeline.insert(0, {"$match": {"_id": bar_id}})
+            except:
+                return jsonify({'error': 'Invalid _id format'}), 400
+        result = client['finder']['bars'].aggregate(pipeline)
+        result_list = list(result)
+        if request.args.get('_id'):
+            if len(result_list) > 0:
+                return json.dumps(result_list[0], default=json_util.default), 200
+            else:
+                return jsonify({'message': 'Bar not found'}), 404
+        return json.dumps(result_list, default=json_util.default), 200
     except Exception as e:
-        return jsonify({'error': e}), 500
+        return jsonify({'error': str(e)}), 500
     
 
 if __name__ == '__main__':

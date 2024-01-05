@@ -7,13 +7,6 @@
 
 import SwiftUI
 
-struct CheckboxItem: Identifiable {
-    let id: Int
-    var label: String
-    var image: String
-}
-
-// Create a Checkbox View
 struct CheckboxView: View {
     var item: CheckboxItem
     var currentColor: Color

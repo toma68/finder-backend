@@ -12,10 +12,13 @@
 		1EDEE4E62B2C552000E45037 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1EDEE4E52B2C552000E45037 /* Preview Assets.xcassets */; };
 		1EDEE4F12B2C563000E45037 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EDEE4F02B2C563000E45037 /* LoginView.swift */; };
 		1EDEE4F32B2C5B1400E45037 /* SignupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EDEE4F22B2C5B1400E45037 /* SignupView.swift */; };
-		E22512FB2B2F3D6100E84B5D /* CheckBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = E22512FA2B2F3D6100E84B5D /* CheckBox.swift */; };
+		E22512FB2B2F3D6100E84B5D /* CheckBoxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E22512FA2B2F3D6100E84B5D /* CheckBoxView.swift */; };
 		E22512FD2B2F721A00E84B5D /* TextCustomField.swift in Sources */ = {isa = PBXBuildFile; fileRef = E22512FC2B2F721A00E84B5D /* TextCustomField.swift */; };
 		E22512FF2B2F74A100E84B5D /* NavbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E22512FE2B2F74A100E84B5D /* NavbarView.swift */; };
 		E23211202B3885BC00348C94 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E232111F2B3885BC00348C94 /* MapView.swift */; };
+		F6117DCF2B48135A007364BF /* UserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6117DCE2B48135A007364BF /* UserView.swift */; };
+		F6117DD12B482E3B007364BF /* CheckBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6117DD02B482E3B007364BF /* CheckBox.swift */; };
+		F6117DD32B484FAE007364BF /* BarWithUsers.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6117DD22B484FAE007364BF /* BarWithUsers.swift */; };
 		F67CBFD72B40CD6F00FB1B4E /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = F67CBFD62B40CD6F00FB1B4E /* User.swift */; };
 		F67CBFD92B40D68100FB1B4E /* Bar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F67CBFD82B40D68100FB1B4E /* Bar.swift */; };
 		F68AC95F2B4198E60035750B /* MapContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F68AC95E2B4198E60035750B /* MapContentView.swift */; };
@@ -23,7 +26,7 @@
 		F68AC9632B419AB20035750B /* MarkerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F68AC9622B419AB20035750B /* MarkerView.swift */; };
 		F68AC9662B41EEC10035750B /* BarsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F68AC9652B41EEC10035750B /* BarsView.swift */; };
 		F6DB03892B42B6450032717B /* UsersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6DB03882B42B6450032717B /* UsersView.swift */; };
-		F6DB038B2B4321310032717B /* UserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6DB038A2B4321310032717B /* UserView.swift */; };
+		F6DB038B2B4321310032717B /* UserEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6DB038A2B4321310032717B /* UserEditView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,10 +36,13 @@
 		1EDEE4E52B2C552000E45037 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		1EDEE4F02B2C563000E45037 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		1EDEE4F22B2C5B1400E45037 /* SignupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupView.swift; sourceTree = "<group>"; };
-		E22512FA2B2F3D6100E84B5D /* CheckBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckBox.swift; sourceTree = "<group>"; };
+		E22512FA2B2F3D6100E84B5D /* CheckBoxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckBoxView.swift; sourceTree = "<group>"; };
 		E22512FC2B2F721A00E84B5D /* TextCustomField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextCustomField.swift; sourceTree = "<group>"; };
 		E22512FE2B2F74A100E84B5D /* NavbarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavbarView.swift; sourceTree = "<group>"; };
 		E232111F2B3885BC00348C94 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
+		F6117DCE2B48135A007364BF /* UserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserView.swift; sourceTree = "<group>"; };
+		F6117DD02B482E3B007364BF /* CheckBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckBox.swift; sourceTree = "<group>"; };
+		F6117DD22B484FAE007364BF /* BarWithUsers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarWithUsers.swift; sourceTree = "<group>"; };
 		F67CBFD62B40CD6F00FB1B4E /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		F67CBFD82B40D68100FB1B4E /* Bar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bar.swift; sourceTree = "<group>"; };
 		F68AC95E2B4198E60035750B /* MapContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapContentView.swift; sourceTree = "<group>"; };
@@ -44,7 +50,7 @@
 		F68AC9622B419AB20035750B /* MarkerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkerView.swift; sourceTree = "<group>"; };
 		F68AC9652B41EEC10035750B /* BarsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarsView.swift; sourceTree = "<group>"; };
 		F6DB03882B42B6450032717B /* UsersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersView.swift; sourceTree = "<group>"; };
-		F6DB038A2B4321310032717B /* UserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserView.swift; sourceTree = "<group>"; };
+		F6DB038A2B4321310032717B /* UserEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserEditView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +107,8 @@
 			children = (
 				F67CBFD62B40CD6F00FB1B4E /* User.swift */,
 				F67CBFD82B40D68100FB1B4E /* Bar.swift */,
+				F6117DD02B482E3B007364BF /* CheckBox.swift */,
+				F6117DD22B484FAE007364BF /* BarWithUsers.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -147,7 +155,7 @@
 		F68AC9642B41C38E0035750B /* Custom */ = {
 			isa = PBXGroup;
 			children = (
-				E22512FA2B2F3D6100E84B5D /* CheckBox.swift */,
+				E22512FA2B2F3D6100E84B5D /* CheckBoxView.swift */,
 				E22512FC2B2F721A00E84B5D /* TextCustomField.swift */,
 			);
 			path = Custom;
@@ -165,7 +173,8 @@
 			isa = PBXGroup;
 			children = (
 				F6DB03882B42B6450032717B /* UsersView.swift */,
-				F6DB038A2B4321310032717B /* UserView.swift */,
+				F6DB038A2B4321310032717B /* UserEditView.swift */,
+				F6117DCE2B48135A007364BF /* UserView.swift */,
 			);
 			path = Users;
 			sourceTree = "<group>";
@@ -241,14 +250,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				E23211202B3885BC00348C94 /* MapView.swift in Sources */,
-				E22512FB2B2F3D6100E84B5D /* CheckBox.swift in Sources */,
+				E22512FB2B2F3D6100E84B5D /* CheckBoxView.swift in Sources */,
 				F68AC9612B4199CD0035750B /* LocationDetailView.swift in Sources */,
+				F6117DCF2B48135A007364BF /* UserView.swift in Sources */,
 				1EDEE4F32B2C5B1400E45037 /* SignupView.swift in Sources */,
 				F68AC9632B419AB20035750B /* MarkerView.swift in Sources */,
+				F6117DD32B484FAE007364BF /* BarWithUsers.swift in Sources */,
 				F6DB03892B42B6450032717B /* UsersView.swift in Sources */,
 				F68AC9662B41EEC10035750B /* BarsView.swift in Sources */,
-				F6DB038B2B4321310032717B /* UserView.swift in Sources */,
+				F6DB038B2B4321310032717B /* UserEditView.swift in Sources */,
 				1EDEE4F12B2C563000E45037 /* LoginView.swift in Sources */,
+				F6117DD12B482E3B007364BF /* CheckBox.swift in Sources */,
 				F67CBFD72B40CD6F00FB1B4E /* User.swift in Sources */,
 				F68AC95F2B4198E60035750B /* MapContentView.swift in Sources */,
 				E22512FF2B2F74A100E84B5D /* NavbarView.swift in Sources */,

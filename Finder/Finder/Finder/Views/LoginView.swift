@@ -13,6 +13,7 @@ struct LoginView: View {
     @State var name: String = "";
     @State private var loginStatusMessage: String = ""
     @Binding var user: User?
+    @Binding var items: [CheckboxItem]
     var textColor: Color = Color("DarkBlue");
     
     var body: some View {
@@ -43,7 +44,7 @@ struct LoginView: View {
                     }.frame(width: 250, height: 45).background(Color("LightBlue")).foregroundColor(.white).cornerRadius(10).font(.system(size: 20, weight: .bold, design: .rounded))
                 }
                 
-                NavigationLink(destination: SignupView()) {
+                NavigationLink(destination: SignupView(items: $items)) {
                     Image(systemName: "person.crop.circle.badge.plus")
                     Text("Become a finder")
                 }.frame(width: 250, height: 45).foregroundColor(Color("Blue")).cornerRadius(10).padding(.bottom, 30).font(.system(size: 20, weight: .bold, design: .rounded))

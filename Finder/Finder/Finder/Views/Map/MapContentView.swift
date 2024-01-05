@@ -9,14 +9,14 @@ import MapKit
 import SwiftUI
 
 struct MapContentView: View {
-    private var items: [Bar]
+    private var items: [BarWithUsers]
     var switchToLogin: () -> Void
-    @Binding private var selectedItem: Bar?
+    @Binding private var selectedItem: BarWithUsers?
     @Binding private var user: User?
     @State private var region: MKCoordinateRegion
     private var zoom : Double
 
-    init(items: [Bar], selectedItem: Binding<Bar?>, user: Binding<User?>, zoom: Double, switchToLogin: @escaping () -> Void) {
+    init(items: [BarWithUsers], selectedItem: Binding<BarWithUsers?>, user: Binding<User?>, zoom: Double, switchToLogin: @escaping () -> Void) {
         self.items = items
         self._selectedItem = selectedItem
         self._user = user
@@ -25,7 +25,7 @@ struct MapContentView: View {
         self._region = State(initialValue: calculateRegion(for: items))
     }
 
-    private func centerMapOnLocation(location: Bar) {
+    private func centerMapOnLocation(location: BarWithUsers) {
         let coordinate = CLLocationCoordinate2D(latitude: location.latitude - 0.001, longitude: location.longitude)
         let newRegion = MKCoordinateRegion(center: coordinate, span: MKCoordinateSpan(latitudeDelta: zoom, longitudeDelta: zoom))
         
