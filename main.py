@@ -132,6 +132,34 @@ def get_users_bars():
     except Exception as e:
         return jsonify({'error': e}), 500
     
+# Update a user's bar
+@app.route('/users/update-bar', methods=['POST'])
+def update_user_bar():
+    try:
+        data = request.json
+        if not data or 'user_id' not in data:
+            return jsonify({'error': 'User ID is required'}), 400
+        try:
+            user_id = ObjectId(data['user_id'])
+        except:
+            return jsonify({'error': 'Invalid user_id format'}), 400
+        new_bar_id = data.get('new_bar_id')
+        if new_bar_id is not None:
+            try:
+                new_bar_id = ObjectId(new_bar_id)
+            except:
+                return jsonify({'error': 'Invalid new_bar_id format'}), 400
+        else:
+            new_bar_id = None
+        users_collection = client['finder']['users']
+        print("new_bar_id: ", new_bar_id)
+        update_result = users_collection.update_one({'_id': user_id}, {'$set': {'bar_id': new_bar_id}})
+        if update_result.matched_count == 0:
+            return jsonify({'error': 'User not found'}), 404
+        return jsonify({'message': 'User bar updated successfully'}), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+    
     
 # ---------- Bars ---------- #
 # Get all bars

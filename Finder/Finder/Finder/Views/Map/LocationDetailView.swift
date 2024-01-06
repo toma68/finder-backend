@@ -40,7 +40,7 @@ struct LocationDetailView: View {
                 if user != nil {
                     if user?.barId == item.id {
                         Button(action: {
-                            leaveBar(item: item)
+                            leaveBar()
                         }) {
                             Image(systemName: "figure.walk.departure").padding(10)
                         }.background(Color("Orange"))
@@ -79,11 +79,62 @@ struct LocationDetailView: View {
         .shadow(radius: 5)
     }
 
-    private func enterBar(item: BarWithUsers) {
-        user?.barId = item.id
+    func updateUserBarId(userId: String, barId: String?, completion: @escaping (Bool) -> Void) {
+        guard let url = URL(string: "http://127.0.0.1:5000/users/update-bar") else {
+            print("Error: Invalid URL")
+            completion(false)
+            return
+        }
+
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+
+        let body: [String: Any] = ["user_id": userId, "new_bar_id": barId as Any]
+        request.httpBody = try? JSONSerialization.data(withJSONObject: body)
+
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                print("Network request failed with error: \(error.localizedDescription)")
+                completion(false)
+                return
+            }
+
+            if let httpResponse = response as? HTTPURLResponse {
+                if httpResponse.statusCode == 200 {
+                    completion(true)
+                } else {
+                    print("HTTP request failed with status code: \(httpResponse.statusCode)")
+                    if let data = data, let responseString = String(data: data, encoding: .utf8) {
+                        print("Response data: \(responseString)")
+                    }
+                    completion(false)
+                }
+            } else {
+                print("Error: No valid HTTP response received")
+                completion(false)
+            }
+        }
+        task.resume()
     }
 
-    private func leaveBar(item: BarWithUsers) {
-        user?.barId = nil
+    
+    private func enterBar(item: BarWithUsers) {
+        guard let userId = user?.id else { return }
+        let barId = item.id
+        updateUserBarId(userId: userId, barId: barId) { success in
+            if success {
+                self.user?.barId = barId
+            }
+        }
+    }
+
+    private func leaveBar() {
+        guard let userId = user?.id else { return }
+        updateUserBarId(userId: userId, barId: nil) { success in
+            if success {
+                self.user?.barId = nil
+            }
+        }
     }
 }
