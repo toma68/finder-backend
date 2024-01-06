@@ -34,6 +34,7 @@ func calculateRegion(for items: [BarWithUsers]) -> MKCoordinateRegion {
 
 
 struct MapView: View {
+    var switchToBar: (BarWithUsers) -> Void
     @Binding var selectedItem: BarWithUsers?
     @State private var bars: [BarWithUsers] = []
     @Binding var user: User?
@@ -45,7 +46,7 @@ struct MapView: View {
     
     var body: some View {
         if !bars.isEmpty {
-            MapContentView(items: bars, selectedItem: $selectedItem, user: $user, zoom: zoom, switchToLogin: goToLogin)
+            MapContentView(switchToBar: switchToBar, items: bars, selectedItem: $selectedItem, user: $user, zoom: zoom, switchToLogin: goToLogin)
                 .onAppear {
                     fetchBars()
                 }

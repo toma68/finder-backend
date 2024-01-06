@@ -9,6 +9,7 @@ import MapKit
 import SwiftUI
 
 struct MapContentView: View {
+    var switchToBar: (BarWithUsers) -> Void
     private var items: [BarWithUsers]
     var switchToLogin: () -> Void
     @Binding private var selectedItem: BarWithUsers?
@@ -16,7 +17,8 @@ struct MapContentView: View {
     @State private var region: MKCoordinateRegion
     private var zoom : Double
 
-    init(items: [BarWithUsers], selectedItem: Binding<BarWithUsers?>, user: Binding<User?>, zoom: Double, switchToLogin: @escaping () -> Void) {
+    init(switchToBar: @escaping (BarWithUsers) -> Void, items: [BarWithUsers], selectedItem: Binding<BarWithUsers?>, user: Binding<User?>, zoom: Double, switchToLogin: @escaping () -> Void) {
+        self.switchToBar = switchToBar
         self.items = items
         self._selectedItem = selectedItem
         self._user = user
@@ -46,7 +48,11 @@ struct MapContentView: View {
         .overlay(
             Group {
                 if let selectedItem = selectedItem {
-                    LocationDetailView(item: selectedItem, onExit: { self.selectedItem = nil }, switchToLogin: switchToLogin, user: $user)
+                    Button(action: {
+                        switchToBar(selectedItem)
+                    }) {
+                        LocationDetailView(item: selectedItem, onExit: { self.selectedItem = nil }, switchToLogin: switchToLogin, user: $user)
+                    }
                 }
             }.offset(y: -25),
             alignment: .bottom

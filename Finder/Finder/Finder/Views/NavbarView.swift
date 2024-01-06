@@ -10,6 +10,8 @@ import SwiftUI
 struct NavBarView: View {   
     @State private var selectedTab = 0
     @State private var selectedBar: BarWithUsers? = nil
+    @State private var selectedMapBar: BarWithUsers? = nil
+    @State private var selectedUser: User? = nil
     @State private var user: User? = nil
     
     @State private var checkBoxItems: [CheckboxItem] = [
@@ -37,27 +39,42 @@ struct NavBarView: View {
             }
             
             
-            BarsView()
+            BarsView(selectedBar: $selectedBar, selectedMapBar: $selectedMapBar, switchToMap: mapView, switchToUser: userView)
                 .tabItem {
                     Image(systemName: "wineglass.fill")
                     Text("Bars")
                 }
                 .tag(1)
             
-            MapView(selectedItem: $selectedBar, user: $user, selectedTab: $selectedTab)
+            MapView(switchToBar: barView, selectedItem: $selectedMapBar, user: $user, selectedTab: $selectedTab)
                 .tabItem {
                     Image(systemName: "map")
                     Text("Map")
                 }
                 .tag(2)
 
-            UsersView(checkBoxItems: $checkBoxItems, selectedTab: $selectedTab, selectedBar: $selectedBar)
+            UsersView(selectedUser: $selectedUser, checkBoxItems: $checkBoxItems, selectedTab: $selectedTab, selectedBar: $selectedMapBar, switchToMap: mapView)
                 .tabItem {
                     Image(systemName: "person.3")
                     Text("Users")
                 }
                 .tag(3)
         }.accentColor(Color("DarkBlue"))
+    }
+    
+    private func barView(selectedBar: BarWithUsers) {
+        selectedTab = 1
+        self.selectedBar = selectedBar
+    }
+    
+    private func mapView(selectedBar: BarWithUsers) {
+        selectedTab = 2
+        self.selectedMapBar = selectedBar
+    }
+    
+    private func userView(selectedUser: User) {
+        selectedTab = 3
+        self.selectedUser = selectedUser
     }
 }
 

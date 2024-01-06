@@ -7,6 +7,19 @@
 
 import SwiftUI
 
+func gradientColor(for gender: String) -> LinearGradient {
+    switch gender {
+    case "m":
+        return LinearGradient(gradient: Gradient(colors: [Color("DarkGreen"), Color("LightGreen")]), startPoint: .topLeading, endPoint: .bottomTrailing)
+    case "w":
+        return LinearGradient(gradient: Gradient(colors: [Color("Orange"), Color("Yellow")]), startPoint: .topLeading, endPoint: .bottomTrailing)
+    case "n":
+        return LinearGradient(gradient: Gradient(colors: [Color("Blue"), Color("LightBlue")]), startPoint: .topLeading, endPoint: .bottomTrailing)
+    default:
+        return LinearGradient(gradient: Gradient(colors: [Color.gray]), startPoint: .topLeading, endPoint: .bottomTrailing)
+    }
+}
+
 struct UserRowView: View {
     let user: User
     let checkBoxItems: [CheckboxItem]
@@ -72,19 +85,6 @@ struct UserEltView: View {
             .padding(20)
         }
     
-    func gradientColor(for gender: String) -> LinearGradient {
-        switch gender {
-        case "m":
-            return LinearGradient(gradient: Gradient(colors: [Color("DarkGreen"), Color("LightGreen")]), startPoint: .topLeading, endPoint: .bottomTrailing)
-        case "w":
-            return LinearGradient(gradient: Gradient(colors: [Color("Orange"), Color("Yellow")]), startPoint: .topLeading, endPoint: .bottomTrailing)
-        case "n":
-            return LinearGradient(gradient: Gradient(colors: [Color("Blue"), Color("LightBlue")]), startPoint: .topLeading, endPoint: .bottomTrailing)
-        default:
-            return LinearGradient(gradient: Gradient(colors: [Color.gray]), startPoint: .topLeading, endPoint: .bottomTrailing)
-        }
-    }
-    
     func backgroundColor(for gender: String) -> AnyView {
         switch gender {
         case "m":
@@ -99,85 +99,41 @@ struct UserEltView: View {
     }
 }
 
-struct UsersView: View {
-    @Binding var checkBoxItems: [CheckboxItem]
+struct UsersProcess: View {
     @State private var searchText = ""
-    @State var users: [User] = []
-    @State private var filteredArray: [User] = []
     @State private var genderFilter: String? = nil
-    @Binding var selectedTab: Int
-    @Binding var selectedBar: BarWithUsers?
-
+    @Binding var filteredArray: [User]
+    @Binding var users: [User]
+    var funcFilteredArray: (String) -> Void
+    
     var body: some View {
-        NavigationView {
-            if !users.isEmpty {
-                VStack {
-                    HStack{
-                        AsyncImage(url: URL(string: "https://finder.thomas-dev.com/finderLogo.png")) {
-                            image in image.resizable().aspectRatio(contentMode: .fit).frame(width: 150).padding(.horizontal, 30)
-                        } placeholder: {
-                            ProgressView()
-                        }
-                        
-                        Spacer()
-                        
-                        Text("Users").colorInvert().font(.system(size: 30, weight: .bold, design: .rounded)).padding(.trailing, 50).bold()
-                    }
-                    
-                    Spacer()
-                    
-                    HStack {
-                        Image(systemName: "magnifyingglass")
-                        
-                        Spacer()
-                        
-                        TextField("Search user...", text: $searchText)
-                            .onChange(of: searchText) { newValue in
-                                filteredArray(with: newValue)
-                            }
-                        
-                        Spacer()
-                        
-                        Menu {
-                            Button("Man", action: { setGenderFilter("m") })
-                            Button("Woman", action: { setGenderFilter("w") })
-                            Button("Neutral", action: { setGenderFilter("n") })
-                            Button("Reset", action: { setGenderFilter(nil) })
-                        } label: {
-                            Image(systemName: "line.horizontal.3.decrease.circle").font(.system(size: 20, weight: .bold, design: .rounded))
-                        }
-                    }
-                    .foregroundColor(Color("DarkBlue")).font(.system(size: 17, weight: .bold, design: .rounded))
-                    .padding(12)
-                    .background(Color(.systemGray6))
-                    .cornerRadius(8)
-                    .padding(.top, 10)
-                    .padding(.horizontal, 20)
-                    
-                    UserEltView(checkBoxItems: $checkBoxItems, filteredArray: $filteredArray, switchToMap: mapView)
+        HStack {
+            Image(systemName: "magnifyingglass")
+            
+            Spacer()
+            
+            TextField("Search user...", text: $searchText)
+                .onChange(of: searchText) { newValue in
+                    funcFilteredArray(newValue)
                 }
-                .background(LinearGradient(gradient: Gradient(colors: [Color("Blue"), Color("LightBlue"), Color("Yellow"), Color("LightGreen")]), startPoint: .topLeading, endPoint: .bottomTrailing))
-                .onAppear {
-                    fetchUsers()
-                    filteredArray = users
-                }
-            } else {
-                VStack {
-                    ProgressView()
-                }
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .background(LinearGradient(gradient: Gradient(colors: [Color("Blue"), Color("LightBlue"), Color("Yellow"), Color("LightGreen")]), startPoint: .topLeading, endPoint: .bottomTrailing))
-                .onAppear {
-                    fetchUsers()
-                    filteredArray = users
-                }
+            
+            Spacer()
+            
+            Menu {
+                Button("Man", action: { setGenderFilter("m") })
+                Button("Woman", action: { setGenderFilter("w") })
+                Button("Neutral", action: { setGenderFilter("n") })
+                Button("Reset", action: { setGenderFilter(nil) })
+            } label: {
+                Image(systemName: "line.horizontal.3.decrease.circle").font(.system(size: 20, weight: .bold, design: .rounded))
             }
         }
-    }
-    
-    private func mapView(selectedBar: BarWithUsers) {
-        selectedTab = 2
-        self.selectedBar = selectedBar
+        .foregroundColor(Color("DarkBlue")).font(.system(size: 17, weight: .bold, design: .rounded))
+        .padding(12)
+        .background(Color(.systemGray6))
+        .cornerRadius(8)
+        .padding(.top, 10)
+        .padding(.horizontal, 20)
     }
     
     private func setGenderFilter(_ gender: String?) {
@@ -192,6 +148,63 @@ struct UsersView: View {
             filteredArray = users.filter {
                 ($0.name.lowercased().contains(searchText.lowercased()) || searchText.isEmpty) &&
                 (genderFilter == nil || $0.gender == genderFilter)
+            }
+        }
+    }
+}
+
+struct UsersView: View {
+    @Binding var selectedUser: User?
+    @Binding var checkBoxItems: [CheckboxItem]
+    @State var users: [User] = []
+    @State private var filteredArray: [User] = []
+    @Binding var selectedTab: Int
+    @Binding var selectedBar: BarWithUsers?
+    var switchToMap: (BarWithUsers) -> Void
+
+    var body: some View {
+        if let currentUser = selectedUser {
+            VStack {
+                HStack {
+                    Button(action: {
+                        selectedUser = nil
+                    }) {
+                        Label("Back", systemImage: "arrowshape.backward.fill")
+                    }
+                }
+                .padding(.leading, 10)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                
+                UserView(user: currentUser, currentColor: gradientColor(for: currentUser.gender), switchToMap: switchToMap, checkBoxItems: $checkBoxItems)
+            }.background(gradientColor(for: currentUser.gender))
+        } else {
+            NavigationView {
+                if !users.isEmpty {
+                    VStack {
+                        ImageTitleCustom(titleText: "Users", imageWidth: 150)
+                        
+                        Spacer()
+                        
+                        UsersProcess(filteredArray: $filteredArray, users: $users, funcFilteredArray: filteredArray)
+                        
+                        UserEltView(checkBoxItems: $checkBoxItems, filteredArray: $filteredArray, switchToMap: switchToMap)
+                    }
+                    .background(LinearGradient(gradient: Gradient(colors: [Color("Blue"), Color("LightBlue"), Color("Yellow"), Color("LightGreen")]), startPoint: .topLeading, endPoint: .bottomTrailing))
+                    .onAppear {
+                        fetchUsers()
+                        filteredArray = users
+                    }
+                } else {
+                    VStack {
+                        ProgressView()
+                    }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .background(LinearGradient(gradient: Gradient(colors: [Color("Blue"), Color("LightBlue"), Color("Yellow"), Color("LightGreen")]), startPoint: .topLeading, endPoint: .bottomTrailing))
+                    .onAppear {
+                        fetchUsers()
+                        filteredArray = users
+                    }
+                }
             }
         }
     }
