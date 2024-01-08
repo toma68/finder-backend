@@ -6,6 +6,7 @@ import json
 import os
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
+from urllib.parse import urlparse
 
 # Load .env file
 load_dotenv()
@@ -81,8 +82,18 @@ def login():
 @app.route('/users/signup', methods=['POST'])
 def signup():
     try:
-        if request.json is None or 'name' not in request.json or 'surname' not in request.json or 'company' not in request.json or 'bio' not in request.json or 'photo' not in request.json or 'gender' not in request.json:
-            return jsonify({'message': 'Invalid request body!'}), 400
+        required_fields = ['name', 'surname', 'company', 'bio', 'photo', 'gender']
+        if not request.json or any(field not in request.json or not request.json[field].strip() for field in required_fields):
+            print("All fields are required and cannot be empty!")
+            return jsonify({'message': 'All fields are required and cannot be empty!'}), 400
+        if request.json['gender'] not in ['m', 'w', 'n']:
+            return jsonify({'message': 'Gender must be "m", "w", or "n"'}), 400
+        try:
+            result = urlparse(request.json['photo'])
+            if not all([result.scheme, result.netloc]):
+                raise ValueError
+        except:
+            return jsonify({'message': 'Invalid photo URL'}), 400
         user = client['finder']['users'].find_one({'name': request.json['name'], 'surname': request.json['surname']})
         if user is not None:
             return jsonify({'message': 'User already exists!'}), 409
@@ -90,7 +101,8 @@ def signup():
         user = client['finder']['users'].find_one({'name': request.json['name'], 'surname': request.json['surname']})
         return json.dumps(user, default=json_util.default), 200
     except Exception as e:
-        return jsonify({'error': e}), 500
+        print("Error: ", e)
+        return jsonify({'error': str(e)}), 500
     
 # Get all users with their corresponding bars
 @app.route('/users/bars', methods=['GET'])

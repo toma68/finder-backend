@@ -34,7 +34,7 @@ struct LoginView: View {
                 Spacer()
                 
                 if !loginStatusMessage.isEmpty {
-                    Text(loginStatusMessage).foregroundColor(.red).padding()
+                    Text(loginStatusMessage).frame(width: 250, height: 45).foregroundColor(.red)
                 } else {
                     Button(action: {
                         loginUser(name: name, surname: surname)
@@ -44,7 +44,7 @@ struct LoginView: View {
                     }.frame(width: 250, height: 45).background(Color("LightBlue")).foregroundColor(.white).cornerRadius(10).font(.system(size: 20, weight: .bold, design: .rounded))
                 }
                 
-                NavigationLink(destination: SignupView(items: $items)) {
+                NavigationLink(destination: SignupView(user: $user, items: $items)) {
                     Image(systemName: "person.crop.circle.badge.plus")
                     Text("Become a finder")
                 }.frame(width: 250, height: 45).foregroundColor(Color("Blue")).cornerRadius(10).padding(.bottom, 30).font(.system(size: 20, weight: .bold, design: .rounded))
@@ -94,7 +94,7 @@ struct LoginView: View {
                             DispatchQueue.main.async {
                                 self.loginStatusMessage = "Failed to decode user data"
                                 
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                                     self.loginStatusMessage = ""
                                 }
                             }
@@ -104,7 +104,7 @@ struct LoginView: View {
                         DispatchQueue.main.async {
                             self.loginStatusMessage = "Wrong name or surname"
                             
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                                 self.loginStatusMessage = ""
                             }
                         }

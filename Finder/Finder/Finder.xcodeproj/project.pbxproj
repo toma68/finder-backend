@@ -27,6 +27,7 @@
 		F68AC9632B419AB20035750B /* MarkerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F68AC9622B419AB20035750B /* MarkerView.swift */; };
 		F68AC9662B41EEC10035750B /* BarsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F68AC9652B41EEC10035750B /* BarsView.swift */; };
 		F69930252B49711800C0DEC9 /* ImageTitleCustom.swift in Sources */ = {isa = PBXBuildFile; fileRef = F69930242B49711800C0DEC9 /* ImageTitleCustom.swift */; };
+		F69B37332B4C34C700CC5221 /* ApiResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = F69B37322B4C34C700CC5221 /* ApiResponse.swift */; };
 		F6DB03892B42B6450032717B /* UsersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6DB03882B42B6450032717B /* UsersView.swift */; };
 		F6DB038B2B4321310032717B /* UserEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6DB038A2B4321310032717B /* UserEditView.swift */; };
 /* End PBXBuildFile section */
@@ -53,6 +54,7 @@
 		F68AC9622B419AB20035750B /* MarkerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkerView.swift; sourceTree = "<group>"; };
 		F68AC9652B41EEC10035750B /* BarsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarsView.swift; sourceTree = "<group>"; };
 		F69930242B49711800C0DEC9 /* ImageTitleCustom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageTitleCustom.swift; sourceTree = "<group>"; };
+		F69B37322B4C34C700CC5221 /* ApiResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiResponse.swift; sourceTree = "<group>"; };
 		F6DB03882B42B6450032717B /* UsersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersView.swift; sourceTree = "<group>"; };
 		F6DB038A2B4321310032717B /* UserEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserEditView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -113,6 +115,7 @@
 				F67CBFD82B40D68100FB1B4E /* Bar.swift */,
 				F6117DD02B482E3B007364BF /* CheckBox.swift */,
 				F6117DD22B484FAE007364BF /* BarWithUsers.swift */,
+				F69B37322B4C34C700CC5221 /* ApiResponse.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -258,6 +261,7 @@
 				E23211202B3885BC00348C94 /* MapView.swift in Sources */,
 				F69930252B49711800C0DEC9 /* ImageTitleCustom.swift in Sources */,
 				E22512FB2B2F3D6100E84B5D /* CheckBoxView.swift in Sources */,
+				F69B37332B4C34C700CC5221 /* ApiResponse.swift in Sources */,
 				F6117DD52B48BF1C007364BF /* BarView.swift in Sources */,
 				F68AC9612B4199CD0035750B /* LocationDetailView.swift in Sources */,
 				F6117DCF2B48135A007364BF /* UserView.swift in Sources */,

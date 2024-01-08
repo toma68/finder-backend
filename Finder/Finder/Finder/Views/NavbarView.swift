@@ -7,6 +7,8 @@
 
 import SwiftUI
 
+var API_URL: String = "http://127.0.0.1:5000"
+
 struct NavBarView: View {   
     @State private var selectedTab = 0
     @State private var selectedBar: BarWithUsers? = nil
