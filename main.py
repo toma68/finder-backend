@@ -144,6 +144,47 @@ def get_users_bars():
     except Exception as e:
         return jsonify({'error': e}), 500
     
+# Update a user
+@app.route('/users/update', methods=['PUT'])
+def update_user():
+    try:
+        user_data = request.json
+        if not user_data or 'user_id' not in user_data or 'name' not in user_data or 'surname' not in user_data:
+            return jsonify({'message': 'User ID, name, and surname are required'}), 400
+
+        user_id = user_data.pop('user_id')
+
+        # Convert user_id to ObjectId
+        try:
+            oid = ObjectId(user_id)
+        except:
+            return jsonify({'error': 'Invalid user_id format'}), 400
+
+        users_collection = client['finder']['users']
+
+        # Check if another user with the same name and surname exists
+        existing_user = users_collection.find_one({'name': user_data['name'],'surname': user_data['surname']})
+        if existing_user:
+            return jsonify({'message': 'Another user with the same name and surname already exists'}), 409
+
+        update_result = users_collection.update_one({'_id': oid}, {'$set': user_data})
+
+        if update_result.matched_count == 0:
+            return jsonify({'message': 'User not found'}), 404
+        if update_result.modified_count == 0:
+            return jsonify({'message': 'No update made'}), 200
+
+        updated_user = users_collection.find_one({'_id': oid})
+        if updated_user:
+            # updated_user['_id'] = str(updated_user['_id'])  # Convert ObjectId to string for JSON serialization
+            return json.dumps(updated_user, default=json_util.default), 200
+
+        return jsonify({'message': 'User updated, but unable to fetch updated data'}), 500
+
+    except Exception as e:
+        print("Error: ", e)
+        return jsonify({'error': str(e)}), 500
+    
 # Update a user's bar
 @app.route('/users/update-bar', methods=['POST'])
 def update_user_bar():

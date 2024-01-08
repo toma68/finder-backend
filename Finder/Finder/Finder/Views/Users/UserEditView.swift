@@ -2,7 +2,7 @@
 //  UserView.swift
 //  Finder
 //
-//  Created by Hopy on 01/01/2024.
+//  Created by Maxime CRAYSSAC on 01/01/2024.
 //
 
 import SwiftUI
@@ -18,6 +18,7 @@ struct UserEditView: View {
     @State private var bio: String = ""
     @State private var photoString: String = ""
     @State private var gender: String = ""
+    @State private var loginStatusMessage: String = ""
     
     var body: some View {
         VStack {
@@ -98,12 +99,16 @@ struct UserEditView: View {
             Spacer()
             
             HStack {
-                Button(action: {
-                    updateUser(name: name, surname: surname, company: company, bio: bio, photoString: photoString)
-                }) {
-                    Image(systemName: "book.pages.fill")
-                    Text("Update infos")
-                }.frame(width: 175, height: 40).background(Color("LightBlue")).foregroundColor(.white).cornerRadius(10).font(.system(size: 16, weight: .bold, design: .rounded)).padding(.bottom, 10)
+                if !loginStatusMessage.isEmpty {
+                    Text(loginStatusMessage).frame(width: 175, height: 40).foregroundColor(.red)
+                } else {
+                    Button(action: {
+                        updateUser(name: name, surname: surname, company: company, bio: bio, photoString: photoString)
+                    }) {
+                        Image(systemName: "book.pages.fill")
+                        Text("Update infos")
+                    }.frame(width: 175, height: 40).background(Color("LightBlue")).foregroundColor(.white).cornerRadius(10).font(.system(size: 16, weight: .bold, design: .rounded)).padding(.bottom, 10)
+                }
                 
                 Button(action: {
                     user = nil
@@ -129,20 +134,129 @@ struct UserEditView: View {
         }
     }
     
-    private func updateUser(name: String, surname: String, company: String, bio: String, photoString: String) {
-        user?.name = name
-        user?.surname = surname
-        user?.company = company
-        user?.bio = bio
-        let defaultPhotoURLString = "https://finder.thomas-dev.com/finderLogo.png"
-
-        if let url = URL(string: photoString), !photoString.isEmpty {
-            user?.photo = url
-        } else {
-            // If photoString is empty or invalid, use the default URL
-            user?.photo = URL(string: defaultPhotoURLString)!
-            // Update photoString to default URL string
-            self.photoString = defaultPhotoURLString
+    func updateUser(name: String, surname: String, company: String, bio: String, photoString: String) {
+        guard let url = URL(string: API_URL + "/users/update") else {
+            print("Invalid URL")
+            return
         }
+        
+        let userData = [
+            "user_id": user?.id,
+            "surname": surname,
+            "name": name,
+            "company": company,
+            "bio": bio,
+            "photo": photoString.isEmpty ? "https://finder.thomas-dev.com/finderLogo.png" : photoString
+        ]
+
+        guard let jsonData = try? JSONSerialization.data(withJSONObject: userData, options: []) else {
+            print("Failed to encode user data")
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "PUT"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpBody = jsonData
+        
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                DispatchQueue.main.async {
+                    self.loginStatusMessage = "HTTP Request Failed \(error)"
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                        self.loginStatusMessage = ""
+                    }
+                }
+                print("HTTP Request Failed \(error)")
+                return
+            }
+
+            if let httpResponse = response as? HTTPURLResponse, let data = data {
+                let decoder = JSONDecoder()
+                if httpResponse.statusCode != 200 {
+                    if let apiResponse = try? decoder.decode(ApiResponse.self, from: data) {
+                        DispatchQueue.main.async {
+                            self.loginStatusMessage = "Error Message: \(apiResponse.message ?? "Unknown error")"
+                            
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                                self.loginStatusMessage = ""
+                            }
+                        }
+                        print("Error Message: \(apiResponse.message ?? "Unknown error")")
+                    } else {
+                        DispatchQueue.main.async {
+                            self.loginStatusMessage = "Failed to decode error response"
+                            
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                                self.loginStatusMessage = ""
+                            }
+                        }
+                        print("Failed to decode error response")
+                    }
+                } else {
+                    do {
+                        let loggedInUser = try JSONDecoder().decode(User.self, from: data)
+                        DispatchQueue.main.async {
+                            self.user = loggedInUser
+                        }
+                    } catch {
+                        DispatchQueue.main.async {
+                            self.loginStatusMessage = "Failed to decode user data"
+                            
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                                self.loginStatusMessage = ""
+                            }
+                        }
+                        print("Decoding error: \(error)")
+                    }
+                }
+            }
+        }.resume()
+        
+//        URLSession.shared.dataTask(with: request) { data, response, error in
+//            if let httpResponse = response as? HTTPURLResponse {
+//                print("HTTP Status Code: \(httpResponse.statusCode)")
+//                
+//                if httpResponse.statusCode != 200 {
+//                    DispatchQueue.main.async {
+//                        self.loginStatusMessage = "Internal error"
+//                        
+//                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+//                            self.loginStatusMessage = ""
+//                        }
+//                    }
+//                } else if let error = error {
+//                    print("Error: \(error.localizedDescription)")
+//                } else if let data = data {
+//                    if httpResponse.statusCode == 200 {
+//                        do {
+//                            let loggedInUser = try JSONDecoder().decode(User.self, from: data)
+//                            DispatchQueue.main.async {
+//                                self.user = loggedInUser
+//                            }
+//                        } catch {
+//                            DispatchQueue.main.async {
+//                                self.loginStatusMessage = "Failed to decode user data"
+//                                
+//                                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+//                                    self.loginStatusMessage = ""
+//                                }
+//                            }
+//                            print("Decoding error: \(error)")
+//                        }
+//                    } else {
+//                        DispatchQueue.main.async {
+//                            self.loginStatusMessage = "Wrong name or surname"
+//                            
+//                            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+//                                self.loginStatusMessage = ""
+//                            }
+//                        }
+//                        
+//                    }
+//                }
+//            }
+//        }.resume()
     }
 }
