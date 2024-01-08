@@ -19,6 +19,7 @@ struct UserEditView: View {
     @State private var photoString: String = ""
     @State private var gender: String = ""
     @State private var loginStatusMessage: String = ""
+    @State private var loginStatusColor: Color = .red
     
     var body: some View {
         VStack {
@@ -100,7 +101,7 @@ struct UserEditView: View {
             
             HStack {
                 if !loginStatusMessage.isEmpty {
-                    Text(loginStatusMessage).frame(width: 175, height: 40).foregroundColor(.red)
+                    Text(loginStatusMessage).frame(width: 175, height: 40).foregroundColor(loginStatusColor)
                 } else {
                     Button(action: {
                         updateUser(name: name, surname: surname, company: company, bio: bio, photoString: photoString)
@@ -177,13 +178,13 @@ struct UserEditView: View {
                 if httpResponse.statusCode != 200 {
                     if let apiResponse = try? decoder.decode(ApiResponse.self, from: data) {
                         DispatchQueue.main.async {
-                            self.loginStatusMessage = "Error Message: \(apiResponse.message ?? "Unknown error")"
+                            self.loginStatusMessage = "\(apiResponse.message ?? "Unknown error")"
                             
                             DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                                 self.loginStatusMessage = ""
                             }
                         }
-                        print("Error Message: \(apiResponse.message ?? "Unknown error")")
+                        print("\(apiResponse.message ?? "Unknown error")")
                     } else {
                         DispatchQueue.main.async {
                             self.loginStatusMessage = "Failed to decode error response"
@@ -199,6 +200,13 @@ struct UserEditView: View {
                         let loggedInUser = try JSONDecoder().decode(User.self, from: data)
                         DispatchQueue.main.async {
                             self.user = loggedInUser
+                            self.loginStatusColor = Color("DarkBlue")
+                            self.loginStatusMessage = "Updated successfully"
+                            
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                                self.loginStatusMessage = ""
+                                self.loginStatusColor = .red
+                            }
                         }
                     } catch {
                         DispatchQueue.main.async {
@@ -213,50 +221,5 @@ struct UserEditView: View {
                 }
             }
         }.resume()
-        
-//        URLSession.shared.dataTask(with: request) { data, response, error in
-//            if let httpResponse = response as? HTTPURLResponse {
-//                print("HTTP Status Code: \(httpResponse.statusCode)")
-//                
-//                if httpResponse.statusCode != 200 {
-//                    DispatchQueue.main.async {
-//                        self.loginStatusMessage = "Internal error"
-//                        
-//                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-//                            self.loginStatusMessage = ""
-//                        }
-//                    }
-//                } else if let error = error {
-//                    print("Error: \(error.localizedDescription)")
-//                } else if let data = data {
-//                    if httpResponse.statusCode == 200 {
-//                        do {
-//                            let loggedInUser = try JSONDecoder().decode(User.self, from: data)
-//                            DispatchQueue.main.async {
-//                                self.user = loggedInUser
-//                            }
-//                        } catch {
-//                            DispatchQueue.main.async {
-//                                self.loginStatusMessage = "Failed to decode user data"
-//                                
-//                                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-//                                    self.loginStatusMessage = ""
-//                                }
-//                            }
-//                            print("Decoding error: \(error)")
-//                        }
-//                    } else {
-//                        DispatchQueue.main.async {
-//                            self.loginStatusMessage = "Wrong name or surname"
-//                            
-//                            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-//                                self.loginStatusMessage = ""
-//                            }
-//                        }
-//                        
-//                    }
-//                }
-//            }
-//        }.resume()
     }
 }
