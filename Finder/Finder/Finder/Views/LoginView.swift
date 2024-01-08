@@ -53,7 +53,7 @@ struct LoginView: View {
     }
     
     private func loginUser(name: String, surname: String) {
-        guard let url = URL(string: "http://127.0.0.1:5000/users/login") else {
+        guard let url = URL(string: API_URL + "/users/login") else {
             print("Invalid URL")
             return
         }

@@ -63,7 +63,7 @@ struct MapView: View {
     }
     
     private func fetchBars() {
-        guard let url = URL(string: "http://127.0.0.1:5000/bars/users") else {
+        guard let url = URL(string: API_URL + "/bars/users") else {
             print("Invalid URL")
             return
         }

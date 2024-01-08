@@ -80,7 +80,7 @@ struct UserView: View {
     }
     
     func fetchBarData() {
-        guard let barId = user?.barId, let url = URL(string: "http://127.0.0.1:5000/bars/users?_id=\(barId)") else {
+        guard let barId = user?.barId, let url = URL(string: API_URL + "/bars/users?_id=\(barId)") else {
             return
         }
 
