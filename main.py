@@ -61,7 +61,18 @@ def get_data():
 @app.route('/users', methods=['GET'])
 def get_users():
     try:
-        return json.dumps(list(client['finder']['users'].find()), default=json_util.default), 200
+        user_id = request.args.get('user_id')
+        if not user_id:
+            return json.dumps(list(client['finder']['users'].find()), default=json_util.default), 200
+        try:
+            oid = ObjectId(user_id)
+        except:
+            return jsonify({'error': 'Invalid user_id format'}), 400
+        users_collection = client['finder']['users']
+        user = users_collection.find_one({'_id': oid})
+        if not user:
+            return jsonify({'message': 'User not found'}), 404
+        return json.dumps(user, default=json_util.default), 200
     except Exception as e:
         return jsonify({'error': e}), 500
 
@@ -149,7 +160,9 @@ def get_users_bars():
 def update_user():
     try:
         user_data = request.json
+        print("user_data: ", user_data)
         if not user_data or 'user_id' not in user_data or 'name' not in user_data or 'surname' not in user_data:
+            print("User ID, name, and surname are required")
             return jsonify({'message': 'User ID, name, and surname are required'}), 400
 
         user_id = user_data.pop('user_id')
@@ -158,6 +171,7 @@ def update_user():
         try:
             oid = ObjectId(user_id)
         except:
+            print("Invalid user_id format: ", user_id)
             return jsonify({'error': 'Invalid user_id format'}), 400
 
         users_collection = client['finder']['users']
@@ -262,8 +276,32 @@ def get_bars_users():
                 return jsonify({'message': 'Bar not found'}), 404
         return json.dumps(result_list, default=json_util.default), 200
     except Exception as e:
+        print("Error: ", e)
         return jsonify({'error': str(e)}), 500
     
+
+# Add a notation to a bar
+@app.route('/bars/notation', methods=['POST'])
+def add_notation():
+    try:
+        data = request.json
+        if not data or 'bar_id' not in data or 'user_id' not in data or 'notation' not in data:
+            return jsonify({'error': 'bar_id, user_id, and notation are required'}), 400
+        try:
+            bar_id = ObjectId(data['bar_id'])
+            user_id = ObjectId(data['user_id'])
+        except:
+            return jsonify({'error': 'Invalid bar_id or user_id format'}), 400
+        notation = data['notation']
+        if notation not in [1, 2, 3, 4, 5]:
+            return jsonify({'error': 'notation must be between 1 and 5'}), 400
+        bars_collection = client['finder']['bars']
+        update_result = bars_collection.update_one({'_id': bar_id}, {'$push': {'notations': {'user_id': user_id, 'notation': notation}}})
+        if update_result.matched_count == 0:
+            return jsonify({'error': 'Bar not found'}), 404
+        return jsonify({'message': 'Notation added successfully'}), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
 if __name__ == '__main__':
     app.run(debug=True)
