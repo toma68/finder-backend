@@ -9,9 +9,11 @@ import SwiftUI
 
 @main
 struct FinderApp: App {
+    var globalUser = GlobalUser()
+    
     var body: some Scene {
         WindowGroup {
-            NavBarView()
+            NavBarView().environmentObject(globalUser)
         }
     }
 }

@@ -8,9 +8,7 @@
 import SwiftUI
 
 struct BarsView: View {
-    @State private var searchText = ""
-    @State private var bars: [BarWithUsers] = []
-    @State private var filteredArray: [BarWithUsers] = []
+    @StateObject private var viewModel = BarsViewModel()
     @Binding var selectedBar: BarWithUsers?
     @Binding var selectedMapBar: BarWithUsers?
     var switchToMap: (BarWithUsers) -> Void
@@ -33,7 +31,7 @@ struct BarsView: View {
             }.background(LinearGradient(gradient: Gradient(colors: [Color("Blue"), Color("LightBlue"), Color("Yellow"), Color("LightGreen")]), startPoint: .topLeading, endPoint: .bottomTrailing))
         } else {
             NavigationView {
-                if !bars.isEmpty {
+                if !viewModel.bars.isEmpty {
                     VStack {
                         ImageTitleCustom(titleText: "Bars", imageWidth: 150)
                         
@@ -44,9 +42,9 @@ struct BarsView: View {
                             
                             Spacer()
                             
-                            TextField("Search bar...", text: $searchText)
-                                .onChange(of: searchText) { newValue in
-                                    filteredArray(with: newValue)
+                            TextField("Search bar...", text: $viewModel.searchText)
+                                .onChange(of: viewModel.searchText) { newValue in
+                                    viewModel.filterBars(with: newValue)
                                 }
                         }
                         .foregroundColor(Color("DarkBlue")).font(.system(size: 17, weight: .bold, design: .rounded))
@@ -57,31 +55,8 @@ struct BarsView: View {
                         .padding(.horizontal, 20)
                         
                         ScrollView {
-                            ForEach(filteredArray) { bar in
-                                NavigationLink(destination: BarView(selectedBar: bar, switchToMap: switchToMap, switchToUser: switchToUser)) {
-                                    VStack(alignment: .center) {
-                                        Text(bar.name).foregroundColor(.white).font(.system(size: 20, weight: .bold, design: .rounded)).padding(.vertical, 5)
-                                        
-                                        HStack {
-                                            Image(systemName: "house.fill")
-                                            Text(":")
-                                            Text(bar.type)
-                                            
-                                            Spacer()
-                                            
-                                            Image(systemName: "person.3.fill")
-                                            Text(":")
-                                            Text(String(bar.usersInBar.count) + " / " + bar.capacity)
-                                        }.padding(.horizontal, 10).padding(.vertical, 5)
-                                        
-                                        Text(bar.description).foregroundColor(Color("LightGreen")).padding(.horizontal, 10).padding(.vertical, 5)
-                                    }
-                                    .padding(12)
-                                    .frame(maxWidth: .infinity)
-                                    .background(Color("DarkBlue"))
-                                    .cornerRadius(10)
-                                    .shadow(radius: 2)
-                                }
+                            ForEach(viewModel.filteredBars) { bar in
+                                BarRowView(bar: bar, switchToMap: switchToMap, switchToUser: switchToUser)
                             }
                         }
                         .foregroundColor(Color("LightBlue")).font(.system(size: 17, weight: .bold, design: .rounded))
@@ -89,8 +64,7 @@ struct BarsView: View {
                     }
                     .background(LinearGradient(gradient: Gradient(colors: [Color("Blue"), Color("LightBlue"), Color("Yellow"), Color("LightGreen")]), startPoint: .topLeading, endPoint: .bottomTrailing))
                     .onAppear {
-                        fetchBars()
-                        filteredArray = bars
+                        viewModel.fetchBars()
                     }
                 } else {
                     VStack {
@@ -99,45 +73,10 @@ struct BarsView: View {
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .background(LinearGradient(gradient: Gradient(colors: [Color("Blue"), Color("LightBlue"), Color("Yellow"), Color("LightGreen")]), startPoint: .topLeading, endPoint: .bottomTrailing))
                     .onAppear {
-                        fetchBars()
-                        filteredArray = bars
+                        viewModel.fetchBars()
                     }
                 }
             }
         }
-    }
-
-    private func filteredArray(with query: String) {
-        if query.isEmpty {
-            filteredArray = bars
-        } else {
-            filteredArray = bars.filter { $0.name.lowercased().contains(query.lowercased()) }
-        }
-    }
-    
-    private func fetchBars() {
-        guard let url = URL(string: API_URL + "/bars/users") else {
-            print("Invalid URL")
-            return
-        }
-
-        let task = URLSession.shared.dataTask(with: url) { data, response, error in
-            if let data = data {
-                do {
-                    let decodedResponse = try JSONDecoder().decode([BarWithUsers].self, from: data)
-                    DispatchQueue.main.async {
-                        self.bars = decodedResponse
-                        print("Fetched \(self.bars.count) bars with users")
-                    }
-                } catch {
-                    self.bars = []
-                    self.filteredArray = []
-                    print("Decoding error: \(error)")
-                }
-            } else {
-                print("Fetch failed: \(error?.localizedDescription ?? "Unknown error")")
-            }
-        }
-        task.resume()
     }
 }

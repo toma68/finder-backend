@@ -8,12 +8,20 @@
 import SwiftUI
 
 struct BarView: View {
-    @State var selectedBar: BarWithUsers?
-    @State var users: [User] = []
-    @State private var filteredArray: [User] = []
+    @StateObject private var viewModel: BarViewModel
+    @StateObject private var viewUserModel = UsersViewModel()
+    var selectedBar: BarWithUsers?
     var switchToMap: (BarWithUsers) -> Void
     var switchToUser: (User) -> Void
     var isClear: Bool = false
+    
+    init(selectedBar: BarWithUsers?, switchToMap: @escaping (BarWithUsers) -> Void, switchToUser: @escaping (User) -> Void, isClear: Bool) {
+        self.selectedBar = selectedBar
+        self.switchToMap = switchToMap
+        self.switchToUser = switchToUser
+        self.isClear = isClear
+        _viewModel = StateObject(wrappedValue: BarViewModel(selectedBar: selectedBar))
+    }
     
     var body: some View {
         VStack {
@@ -36,7 +44,9 @@ struct BarView: View {
                             Text(String(currentBar.usersInBar.count) + " / " + currentBar.capacity)
                         }.padding(.horizontal, 10).padding(.vertical, 5)
                         
-                        Text(currentBar.description).foregroundColor(Color("LightGreen")).padding(.horizontal, 10).padding(.vertical, 5)
+                        ScrollView {
+                            Text(currentBar.description).foregroundColor(Color("LightGreen")).padding(.horizontal, 10).padding(.vertical, 5)
+                        }.frame(maxHeight: 200)
                     }
                     .padding(12)
                     .frame(maxWidth: .infinity)
@@ -48,10 +58,10 @@ struct BarView: View {
                     .padding(20)
                 }
 
-                UsersProcess(filteredArray: $filteredArray, users: $users, funcFilteredArray: filterUsers)
+                UsersProcess(viewModel: viewUserModel)
                 
                 ScrollView {
-                    ForEach(filteredArray) { user in
+                    ForEach(viewUserModel.filteredUsers) { user in
                         Button (action: {
                             switchToUser(user)
                         }) {
@@ -81,7 +91,7 @@ struct BarView: View {
                             .padding(.horizontal, 30)
                             .padding(.vertical, 20)
                             .padding(.vertical, 10)
-                            .background(backgroundColor(for: user.gender))
+                            .background(viewModel.backgroundColor(for: user.gender))
                             .cornerRadius(10)
                             .shadow(radius: 2)
                         }
@@ -96,30 +106,9 @@ struct BarView: View {
         .background(isClear ? LinearGradient(gradient: Gradient(colors: [.clear]), startPoint: .topLeading, endPoint: .bottomTrailing) : LinearGradient(gradient: Gradient(colors: [Color("Blue"), Color("LightBlue"), Color("Yellow"), Color("LightGreen")]), startPoint: .topLeading, endPoint: .bottomTrailing))
         .onAppear(){
             if let usersCurrentBar = selectedBar?.usersInBar {
-                users = usersCurrentBar
-                filteredArray = users
+                viewUserModel.users = usersCurrentBar
+                viewUserModel.filteredUsers = viewUserModel.users
             }
-        }
-    }
-    
-    private func filterUsers(with query: String) {
-        if query.isEmpty {
-            filteredArray = users
-        } else {
-            filteredArray = users.filter { $0.name.lowercased().contains(query.lowercased()) }
-        }
-    }
-    
-    func backgroundColor(for gender: String) -> AnyView {
-        switch gender {
-        case "m":
-            return AnyView(LinearGradient(gradient: Gradient(colors: [Color("DarkGreen"), Color("LightGreen")]), startPoint: .topLeading, endPoint: .bottomTrailing))
-        case "w":
-            return AnyView(LinearGradient(gradient: Gradient(colors: [Color("Orange"), Color("Yellow")]), startPoint: .topLeading, endPoint: .bottomTrailing))
-        case "n":
-            return AnyView(LinearGradient(gradient: Gradient(colors: [Color("Blue"), Color("LightBlue")]), startPoint: .topLeading, endPoint: .bottomTrailing))
-        default:
-            return AnyView(Color.gray)
         }
     }
 }

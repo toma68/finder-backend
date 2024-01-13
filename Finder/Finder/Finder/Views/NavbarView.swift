@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+// Variables
 var API_URL: String = "http://127.0.0.1:5000"
 
 struct NavBarView: View {   
@@ -14,7 +15,8 @@ struct NavBarView: View {
     @State private var selectedBar: BarWithUsers? = nil
     @State private var selectedMapBar: BarWithUsers? = nil
     @State private var selectedUser: User? = nil
-    @State private var user: User? = nil
+    
+    @EnvironmentObject var globalUser: GlobalUser
     
     @State private var checkBoxItems: [CheckboxItem] = [
         CheckboxItem(id: 1, label: "Man", image: "mustache.fill", value: "m"),
@@ -24,15 +26,15 @@ struct NavBarView: View {
 
     var body: some View {
         TabView(selection: $selectedTab) {
-            if user != nil {
-                UserEditView(user: $user)
+            if globalUser.userId != nil {
+                UserEditView()
                     .tabItem {
                         Image(systemName: "person.crop.square")
                         Text("Profile")
                     }
                     .tag(0)
             } else {
-                LoginView(user: $user, items: $checkBoxItems)
+                LoginView(items: $checkBoxItems)
                     .tabItem {
                         Image(systemName: "person.crop.square")
                         Text("Profile")
@@ -48,7 +50,7 @@ struct NavBarView: View {
                 }
                 .tag(1)
             
-            MapView(switchToBar: barView, selectedItem: $selectedMapBar, user: $user, selectedTab: $selectedTab)
+            MapView(selectedBar: $selectedMapBar, switchToBar: barView, switchToLogin: goToLogin)
                 .tabItem {
                     Image(systemName: "map")
                     Text("Map")
@@ -64,19 +66,23 @@ struct NavBarView: View {
         }.accentColor(Color("DarkBlue"))
     }
     
+    private func goToLogin() {
+        selectedTab = 0
+    }
+    
     private func barView(selectedBar: BarWithUsers) {
-        selectedTab = 1
         self.selectedBar = selectedBar
+        selectedTab = 1
     }
     
     private func mapView(selectedBar: BarWithUsers) {
-        selectedTab = 2
         self.selectedMapBar = selectedBar
+        selectedTab = 2
     }
     
     private func userView(selectedUser: User) {
-        selectedTab = 3
         self.selectedUser = selectedUser
+        selectedTab = 3
     }
 }
 

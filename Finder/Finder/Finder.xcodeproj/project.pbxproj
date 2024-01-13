@@ -20,6 +20,26 @@
 		F6117DD12B482E3B007364BF /* CheckBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6117DD02B482E3B007364BF /* CheckBox.swift */; };
 		F6117DD32B484FAE007364BF /* BarWithUsers.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6117DD22B484FAE007364BF /* BarWithUsers.swift */; };
 		F6117DD52B48BF1C007364BF /* BarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6117DD42B48BF1C007364BF /* BarView.swift */; };
+		F638BF222B52F030006CAD6F /* BarRowViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F638BF212B52F030006CAD6F /* BarRowViewModel.swift */; };
+		F638BF252B52F3EF006CAD6F /* BarRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F638BF242B52F3EF006CAD6F /* BarRowView.swift */; };
+		F638BF272B52F7B9006CAD6F /* DateWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F638BF262B52F7B9006CAD6F /* DateWrapper.swift */; };
+		F647983A2B513818007601D7 /* UsersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F64798392B513818007601D7 /* UsersViewModel.swift */; };
+		F647983C2B514673007601D7 /* UserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F647983B2B514673007601D7 /* UserViewModel.swift */; };
+		F647983F2B514952007601D7 /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F647983E2B514952007601D7 /* MapViewModel.swift */; };
+		F64798412B51507F007601D7 /* MapContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F64798402B51507F007601D7 /* MapContentViewModel.swift */; };
+		F64798432B5155BD007601D7 /* MapService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F64798422B5155BD007601D7 /* MapService.swift */; };
+		F64798452B516F0E007601D7 /* LocationDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F64798442B516F0E007601D7 /* LocationDetailViewModel.swift */; };
+		F64B3B502B500AB900608763 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F64B3B4F2B500AB900608763 /* UserService.swift */; };
+		F64B3B522B500BAE00608763 /* UserEditViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F64B3B512B500BAE00608763 /* UserEditViewModel.swift */; };
+		F64B3B542B500D7400608763 /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F64B3B532B500D7400608763 /* UserData.swift */; };
+		F64B3B562B50249500608763 /* UserId.swift in Sources */ = {isa = PBXBuildFile; fileRef = F64B3B552B50249500608763 /* UserId.swift */; };
+		F64B3B582B5041DE00608763 /* GlobalUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = F64B3B572B5041DE00608763 /* GlobalUser.swift */; };
+		F64B3B5A2B50540A00608763 /* CustomError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F64B3B592B50540A00608763 /* CustomError.swift */; };
+		F64B3B5D2B505A6200608763 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F64B3B5C2B505A6200608763 /* LoginViewModel.swift */; };
+		F64B3B612B50734000608763 /* SignupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F64B3B602B50734000608763 /* SignupViewModel.swift */; };
+		F64B3B632B5097B100608763 /* BarService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F64B3B622B5097B100608763 /* BarService.swift */; };
+		F64B3B662B50990300608763 /* BarsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F64B3B652B50990300608763 /* BarsViewModel.swift */; };
+		F64B3B682B509C2A00608763 /* BarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F64B3B672B509C2A00608763 /* BarViewModel.swift */; };
 		F67CBFD72B40CD6F00FB1B4E /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = F67CBFD62B40CD6F00FB1B4E /* User.swift */; };
 		F67CBFD92B40D68100FB1B4E /* Bar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F67CBFD82B40D68100FB1B4E /* Bar.swift */; };
 		F68AC95F2B4198E60035750B /* MapContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F68AC95E2B4198E60035750B /* MapContentView.swift */; };
@@ -47,6 +67,26 @@
 		F6117DD02B482E3B007364BF /* CheckBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckBox.swift; sourceTree = "<group>"; };
 		F6117DD22B484FAE007364BF /* BarWithUsers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarWithUsers.swift; sourceTree = "<group>"; };
 		F6117DD42B48BF1C007364BF /* BarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarView.swift; sourceTree = "<group>"; };
+		F638BF212B52F030006CAD6F /* BarRowViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarRowViewModel.swift; sourceTree = "<group>"; };
+		F638BF242B52F3EF006CAD6F /* BarRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarRowView.swift; sourceTree = "<group>"; };
+		F638BF262B52F7B9006CAD6F /* DateWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateWrapper.swift; sourceTree = "<group>"; };
+		F64798392B513818007601D7 /* UsersViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersViewModel.swift; sourceTree = "<group>"; };
+		F647983B2B514673007601D7 /* UserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewModel.swift; sourceTree = "<group>"; };
+		F647983E2B514952007601D7 /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
+		F64798402B51507F007601D7 /* MapContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapContentViewModel.swift; sourceTree = "<group>"; };
+		F64798422B5155BD007601D7 /* MapService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapService.swift; sourceTree = "<group>"; };
+		F64798442B516F0E007601D7 /* LocationDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationDetailViewModel.swift; sourceTree = "<group>"; };
+		F64B3B4F2B500AB900608763 /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
+		F64B3B512B500BAE00608763 /* UserEditViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserEditViewModel.swift; sourceTree = "<group>"; };
+		F64B3B532B500D7400608763 /* UserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserData.swift; sourceTree = "<group>"; };
+		F64B3B552B50249500608763 /* UserId.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserId.swift; sourceTree = "<group>"; };
+		F64B3B572B5041DE00608763 /* GlobalUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalUser.swift; sourceTree = "<group>"; };
+		F64B3B592B50540A00608763 /* CustomError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomError.swift; sourceTree = "<group>"; };
+		F64B3B5C2B505A6200608763 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
+		F64B3B602B50734000608763 /* SignupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupViewModel.swift; sourceTree = "<group>"; };
+		F64B3B622B5097B100608763 /* BarService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarService.swift; sourceTree = "<group>"; };
+		F64B3B652B50990300608763 /* BarsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarsViewModel.swift; sourceTree = "<group>"; };
+		F64B3B672B509C2A00608763 /* BarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarViewModel.swift; sourceTree = "<group>"; };
 		F67CBFD62B40CD6F00FB1B4E /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		F67CBFD82B40D68100FB1B4E /* Bar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bar.swift; sourceTree = "<group>"; };
 		F68AC95E2B4198E60035750B /* MapContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapContentView.swift; sourceTree = "<group>"; };
@@ -116,6 +156,11 @@
 				F6117DD02B482E3B007364BF /* CheckBox.swift */,
 				F6117DD22B484FAE007364BF /* BarWithUsers.swift */,
 				F69B37322B4C34C700CC5221 /* ApiResponse.swift */,
+				F64B3B532B500D7400608763 /* UserData.swift */,
+				F64B3B552B50249500608763 /* UserId.swift */,
+				F64B3B572B5041DE00608763 /* GlobalUser.swift */,
+				F64B3B592B50540A00608763 /* CustomError.swift */,
+				F638BF262B52F7B9006CAD6F /* DateWrapper.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -123,6 +168,9 @@
 		1EDEE4ED2B2C554F00E45037 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				F64B3B4F2B500AB900608763 /* UserService.swift */,
+				F64B3B622B5097B100608763 /* BarService.swift */,
+				F64798422B5155BD007601D7 /* MapService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -130,6 +178,11 @@
 		1EDEE4EE2B2C555B00E45037 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				F647983D2B51493C007601D7 /* Map */,
+				F64B3B642B5098EE00608763 /* Bars */,
+				F64B3B5B2B5059E600608763 /* Users */,
+				F64B3B5C2B505A6200608763 /* LoginViewModel.swift */,
+				F64B3B602B50734000608763 /* SignupViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -146,6 +199,36 @@
 				E22512FE2B2F74A100E84B5D /* NavbarView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		F647983D2B51493C007601D7 /* Map */ = {
+			isa = PBXGroup;
+			children = (
+				F647983E2B514952007601D7 /* MapViewModel.swift */,
+				F64798402B51507F007601D7 /* MapContentViewModel.swift */,
+				F64798442B516F0E007601D7 /* LocationDetailViewModel.swift */,
+			);
+			path = Map;
+			sourceTree = "<group>";
+		};
+		F64B3B5B2B5059E600608763 /* Users */ = {
+			isa = PBXGroup;
+			children = (
+				F64B3B512B500BAE00608763 /* UserEditViewModel.swift */,
+				F64798392B513818007601D7 /* UsersViewModel.swift */,
+				F647983B2B514673007601D7 /* UserViewModel.swift */,
+			);
+			path = Users;
+			sourceTree = "<group>";
+		};
+		F64B3B642B5098EE00608763 /* Bars */ = {
+			isa = PBXGroup;
+			children = (
+				F64B3B652B50990300608763 /* BarsViewModel.swift */,
+				F64B3B672B509C2A00608763 /* BarViewModel.swift */,
+				F638BF212B52F030006CAD6F /* BarRowViewModel.swift */,
+			);
+			path = Bars;
 			sourceTree = "<group>";
 		};
 		F68AC95D2B4198BA0035750B /* Map */ = {
@@ -174,6 +257,7 @@
 			children = (
 				F68AC9652B41EEC10035750B /* BarsView.swift */,
 				F6117DD42B48BF1C007364BF /* BarView.swift */,
+				F638BF242B52F3EF006CAD6F /* BarRowView.swift */,
 			);
 			path = Bars;
 			sourceTree = "<group>";
@@ -264,19 +348,39 @@
 				F69B37332B4C34C700CC5221 /* ApiResponse.swift in Sources */,
 				F6117DD52B48BF1C007364BF /* BarView.swift in Sources */,
 				F68AC9612B4199CD0035750B /* LocationDetailView.swift in Sources */,
+				F64798452B516F0E007601D7 /* LocationDetailViewModel.swift in Sources */,
+				F64B3B612B50734000608763 /* SignupViewModel.swift in Sources */,
+				F64B3B502B500AB900608763 /* UserService.swift in Sources */,
+				F638BF252B52F3EF006CAD6F /* BarRowView.swift in Sources */,
+				F64B3B582B5041DE00608763 /* GlobalUser.swift in Sources */,
 				F6117DCF2B48135A007364BF /* UserView.swift in Sources */,
 				1EDEE4F32B2C5B1400E45037 /* SignupView.swift in Sources */,
+				F647983F2B514952007601D7 /* MapViewModel.swift in Sources */,
 				F68AC9632B419AB20035750B /* MarkerView.swift in Sources */,
 				F6117DD32B484FAE007364BF /* BarWithUsers.swift in Sources */,
 				F6DB03892B42B6450032717B /* UsersView.swift in Sources */,
+				F64B3B682B509C2A00608763 /* BarViewModel.swift in Sources */,
+				F64B3B522B500BAE00608763 /* UserEditViewModel.swift in Sources */,
+				F64B3B632B5097B100608763 /* BarService.swift in Sources */,
+				F64B3B5A2B50540A00608763 /* CustomError.swift in Sources */,
 				F68AC9662B41EEC10035750B /* BarsView.swift in Sources */,
 				F6DB038B2B4321310032717B /* UserEditView.swift in Sources */,
+				F64798432B5155BD007601D7 /* MapService.swift in Sources */,
+				F638BF272B52F7B9006CAD6F /* DateWrapper.swift in Sources */,
 				1EDEE4F12B2C563000E45037 /* LoginView.swift in Sources */,
 				F6117DD12B482E3B007364BF /* CheckBox.swift in Sources */,
+				F647983A2B513818007601D7 /* UsersViewModel.swift in Sources */,
 				F67CBFD72B40CD6F00FB1B4E /* User.swift in Sources */,
+				F64B3B5D2B505A6200608763 /* LoginViewModel.swift in Sources */,
+				F64B3B542B500D7400608763 /* UserData.swift in Sources */,
+				F64B3B562B50249500608763 /* UserId.swift in Sources */,
 				F68AC95F2B4198E60035750B /* MapContentView.swift in Sources */,
+				F64B3B662B50990300608763 /* BarsViewModel.swift in Sources */,
 				E22512FF2B2F74A100E84B5D /* NavbarView.swift in Sources */,
 				1EDEE4DF2B2C551F00E45037 /* FinderApp.swift in Sources */,
+				F647983C2B514673007601D7 /* UserViewModel.swift in Sources */,
+				F638BF222B52F030006CAD6F /* BarRowViewModel.swift in Sources */,
+				F64798412B51507F007601D7 /* MapContentViewModel.swift in Sources */,
 				F67CBFD92B40D68100FB1B4E /* Bar.swift in Sources */,
 				E22512FD2B2F721A00E84B5D /* TextCustomField.swift in Sources */,
 			);

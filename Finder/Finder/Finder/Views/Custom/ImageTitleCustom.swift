@@ -2,7 +2,7 @@
 //  ImageTitleCustom.swift
 //  Finder
 //
-//  Created by Hopy on 06/01/2024.
+//  Created by Maxime CRAYSSAC on 06/01/2024.
 //
 
 import SwiftUI

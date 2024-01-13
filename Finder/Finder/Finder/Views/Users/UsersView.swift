@@ -7,19 +7,6 @@
 
 import SwiftUI
 
-func gradientColor(for gender: String) -> LinearGradient {
-    switch gender {
-    case "m":
-        return LinearGradient(gradient: Gradient(colors: [Color("DarkGreen"), Color("LightGreen")]), startPoint: .topLeading, endPoint: .bottomTrailing)
-    case "w":
-        return LinearGradient(gradient: Gradient(colors: [Color("Orange"), Color("Yellow")]), startPoint: .topLeading, endPoint: .bottomTrailing)
-    case "n":
-        return LinearGradient(gradient: Gradient(colors: [Color("Blue"), Color("LightBlue")]), startPoint: .topLeading, endPoint: .bottomTrailing)
-    default:
-        return LinearGradient(gradient: Gradient(colors: [Color.gray]), startPoint: .topLeading, endPoint: .bottomTrailing)
-    }
-}
-
 struct UserRowView: View {
     let user: User
     let checkBoxItems: [CheckboxItem]
@@ -67,44 +54,27 @@ struct UserInfoView: View {
 }
 
 struct UserEltView: View {
+    @ObservedObject var viewModel: UsersViewModel
     @Binding var checkBoxItems: [CheckboxItem]
-    @Binding var filteredArray: [User]
     var switchToMap: (BarWithUsers) -> Void
     
     var body: some View {
-            ScrollView {
-                ForEach(filteredArray) { user in
-                    NavigationLink(destination: UserView(user: user, currentColor: gradientColor(for: user.gender), switchToMap: switchToMap, checkBoxItems: $checkBoxItems)) {
-                        UserRowView(user: user, checkBoxItems: checkBoxItems)
-                            .background(backgroundColor(for: user.gender))
-                            .cornerRadius(10)
-                            .shadow(radius: 2)
-                    }
+        ScrollView {
+            ForEach(viewModel.filteredUsers) { user in
+                NavigationLink(destination: UserView(user: user, currentColor: viewModel.gradientColor(for: user.gender), switchToMap: switchToMap, checkBoxItems: $checkBoxItems)) {
+                    UserRowView(user: user, checkBoxItems: checkBoxItems)
+                        .background(viewModel.backgroundColor(for: user.gender))
+                        .cornerRadius(10)
+                        .shadow(radius: 2)
                 }
             }
-            .padding(20)
         }
-    
-    func backgroundColor(for gender: String) -> AnyView {
-        switch gender {
-        case "m":
-            return AnyView(LinearGradient(gradient: Gradient(colors: [Color("DarkGreen"), Color("LightGreen")]), startPoint: .topLeading, endPoint: .bottomTrailing))
-        case "w":
-            return AnyView(LinearGradient(gradient: Gradient(colors: [Color("Orange"), Color("Yellow")]), startPoint: .topLeading, endPoint: .bottomTrailing))
-        case "n":
-            return AnyView(LinearGradient(gradient: Gradient(colors: [Color("Blue"), Color("LightBlue")]), startPoint: .topLeading, endPoint: .bottomTrailing))
-        default:
-            return AnyView(Color.gray)
-        }
+        .padding(20)
     }
 }
 
 struct UsersProcess: View {
-    @State private var searchText = ""
-    @State private var genderFilter: String? = nil
-    @Binding var filteredArray: [User]
-    @Binding var users: [User]
-    var funcFilteredArray: (String) -> Void
+    @ObservedObject var viewModel: UsersViewModel
     
     var body: some View {
         HStack {
@@ -112,18 +82,18 @@ struct UsersProcess: View {
             
             Spacer()
             
-            TextField("Search user...", text: $searchText)
-                .onChange(of: searchText) { newValue in
-                    funcFilteredArray(newValue)
+            TextField("Search user...", text: $viewModel.searchText)
+                .onChange(of: viewModel.searchText) { newValue in
+                    viewModel.filterUsers()
                 }
             
             Spacer()
             
             Menu {
-                Button("Man", action: { setGenderFilter("m") })
-                Button("Woman", action: { setGenderFilter("w") })
-                Button("Neutral", action: { setGenderFilter("n") })
-                Button("Reset", action: { setGenderFilter(nil) })
+                Button("Man", action: { viewModel.setGenderFilter("m") })
+                Button("Woman", action: { viewModel.setGenderFilter("w") })
+                Button("Neutral", action: { viewModel.setGenderFilter("n") })
+                Button("Reset", action: { viewModel.setGenderFilter(nil) })
             } label: {
                 Image(systemName: "line.horizontal.3.decrease.circle").font(.system(size: 20, weight: .bold, design: .rounded))
             }
@@ -135,29 +105,12 @@ struct UsersProcess: View {
         .padding(.top, 10)
         .padding(.horizontal, 20)
     }
-    
-    private func setGenderFilter(_ gender: String?) {
-        genderFilter = gender
-        filterUsers()
-    }
-
-    private func filterUsers() {
-        if searchText.isEmpty && genderFilter == nil {
-            filteredArray = users
-        } else {
-            filteredArray = users.filter {
-                ($0.name.lowercased().contains(searchText.lowercased()) || searchText.isEmpty) &&
-                (genderFilter == nil || $0.gender == genderFilter)
-            }
-        }
-    }
 }
 
 struct UsersView: View {
+    @StateObject private var viewModel = UsersViewModel()
     @Binding var selectedUser: User?
     @Binding var checkBoxItems: [CheckboxItem]
-    @State var users: [User] = []
-    @State private var filteredArray: [User] = []
     @Binding var selectedTab: Int
     @Binding var selectedBar: BarWithUsers?
     var switchToMap: (BarWithUsers) -> Void
@@ -175,24 +128,23 @@ struct UsersView: View {
                 .padding(.leading, 10)
                 .frame(maxWidth: .infinity, alignment: .leading)
                 
-                UserView(user: currentUser, currentColor: gradientColor(for: currentUser.gender), switchToMap: switchToMap, checkBoxItems: $checkBoxItems)
-            }.background(gradientColor(for: currentUser.gender))
+                UserView(user: currentUser, currentColor: viewModel.gradientColor(for: currentUser.gender), switchToMap: switchToMap, checkBoxItems: $checkBoxItems)
+            }.background(viewModel.gradientColor(for: currentUser.gender))
         } else {
             NavigationView {
-                if !users.isEmpty {
+                if !viewModel.users.isEmpty {
                     VStack {
                         ImageTitleCustom(titleText: "Users", imageWidth: 150)
                         
                         Spacer()
                         
-                        UsersProcess(filteredArray: $filteredArray, users: $users, funcFilteredArray: filteredArray)
+                        UsersProcess(viewModel: viewModel)
                         
-                        UserEltView(checkBoxItems: $checkBoxItems, filteredArray: $filteredArray, switchToMap: switchToMap)
+                        UserEltView(viewModel: viewModel, checkBoxItems: $checkBoxItems, switchToMap: switchToMap)
                     }
                     .background(LinearGradient(gradient: Gradient(colors: [Color("Blue"), Color("LightBlue"), Color("Yellow"), Color("LightGreen")]), startPoint: .topLeading, endPoint: .bottomTrailing))
                     .onAppear {
-                        fetchUsers()
-                        filteredArray = users
+                        viewModel.fetchUsers()
                     }
                 } else {
                     VStack {
@@ -201,45 +153,10 @@ struct UsersView: View {
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .background(LinearGradient(gradient: Gradient(colors: [Color("Blue"), Color("LightBlue"), Color("Yellow"), Color("LightGreen")]), startPoint: .topLeading, endPoint: .bottomTrailing))
                     .onAppear {
-                        fetchUsers()
-                        filteredArray = users
+                        viewModel.fetchUsers()
                     }
                 }
             }
         }
-    }
-
-    private func filteredArray(with query: String) {
-        if query.isEmpty {
-            filteredArray = users
-        } else {
-            filteredArray = users.filter { $0.name.lowercased().contains(query.lowercased()) }
-        }
-    }
-    
-    private func fetchUsers() {
-        guard let url = URL(string: API_URL + "/users") else {
-            print("Invalid URL")
-            return
-        }
-
-        let task = URLSession.shared.dataTask(with: url) { data, response, error in
-            if let data = data {
-                do {
-                    let decodedResponse = try JSONDecoder().decode([User].self, from: data)
-                    DispatchQueue.main.async {
-                        self.users = decodedResponse
-                        print("Fetched \(self.users.count) users")
-                    }
-                } catch {
-                    self.users = []
-                    self.filteredArray = []
-                    print("Decoding error: \(error)")
-                }
-            } else {
-                print("Fetch failed: \(error?.localizedDescription ?? "Unknown error")")
-            }
-        }
-        task.resume()
     }
 }
