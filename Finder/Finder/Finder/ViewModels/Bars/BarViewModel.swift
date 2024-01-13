@@ -9,6 +9,7 @@ import Foundation
 import SwiftUI
 
 class BarViewModel: ObservableObject {
+    private var barService: BarService = BarService()
     @Published var selectedBar: BarWithUsers?
     @Published var users: [User] = []
     @Published var filteredUsers: [User] = []
@@ -44,5 +45,21 @@ class BarViewModel: ObservableObject {
         default:
             return AnyView(Color.gray)
         }
+    }
+    
+    func timeStatus(openingHour: Date, closingHour: Date) -> String {
+        return barService.timeStatus(openingHour: openingHour, closingHour: closingHour)
+    }
+    
+    func timeText(openingHour: Date, closingHour: Date, currentDate: Date) -> (text: String, color: Color) {
+        return barService.timeText(openingHour: openingHour, closingHour: closingHour, currentDate: currentDate)
+    }
+    
+    func getHour(date: Date) -> String {
+        return barService.getHour(date: date)
+    }
+    
+    func getMinutes(date: Date) -> String {
+        return barService.getMinutes(date: date)
     }
 }

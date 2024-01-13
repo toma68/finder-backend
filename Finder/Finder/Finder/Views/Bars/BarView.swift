@@ -15,6 +15,9 @@ struct BarView: View {
     var switchToUser: (User) -> Void
     var isClear: Bool = false
     
+    @State private var currentTime = Date()
+    let timer = Timer.publish(every: 60, on: .main, in: .common).autoconnect()
+    
     init(selectedBar: BarWithUsers?, switchToMap: @escaping (BarWithUsers) -> Void, switchToUser: @escaping (User) -> Void, isClear: Bool) {
         self.selectedBar = selectedBar
         self.switchToMap = switchToMap
@@ -33,20 +36,86 @@ struct BarView: View {
                 }) {
                     VStack(alignment: .center) {
                         HStack {
-                            Image(systemName: "house.fill")
-                            Text(":")
-                            Text(currentBar.type)
+                            Label(currentBar.type, systemImage: "house.fill")
                             
                             Spacer()
                             
-                            Image(systemName: "person.3.fill")
-                            Text(":")
-                            Text(String(currentBar.usersInBar.count) + " / " + currentBar.capacity)
-                        }.padding(.horizontal, 10).padding(.vertical, 5)
+                            Label(String(currentBar.usersInBar.count) + " / " + currentBar.capacity, systemImage: "person.3.fill")
+                        }.padding(.horizontal, 5).padding(.top, 5)
+                        
+                        HStack {
+                            HStack {
+                                Label("\(viewModel.getHour(date: currentBar.opening_hour))h\(viewModel.getMinutes(date: currentBar.opening_hour)) - \(viewModel.getHour(date: currentBar.closing_hour))h\(viewModel.getMinutes(date: currentBar.closing_hour))", systemImage: "clock")
+                                Spacer()
+                            }.foregroundColor(Color("LightGreen"))
+
+                            Spacer()
+
+                            HStack {
+                                Text("\(viewModel.timeText(openingHour: currentBar.opening_hour, closingHour: currentBar.closing_hour, currentDate: currentTime).text)")
+                            }.foregroundColor(viewModel.timeText(openingHour: currentBar.opening_hour, closingHour: currentBar.closing_hour, currentDate: currentTime).color)
+                        }
+                        .padding(.horizontal, 5).padding(.top, 5)
+                        .onReceive(timer) { _ in
+                            currentTime = Date()
+                        }
+                        .onAppear {
+                            currentTime = Date()
+                        }
                         
                         ScrollView {
                             Text(currentBar.description).foregroundColor(Color("LightGreen")).padding(.horizontal, 10).padding(.vertical, 5)
-                        }.frame(maxHeight: 200)
+                        }.frame(maxHeight: .infinity)
+
+                        HStack {
+                            Spacer()
+                            Text("\(viewModel.timeStatus(openingHour: currentBar.opening_hour, closingHour: currentBar.closing_hour))")
+                            Spacer()
+                        }
+                        .foregroundColor(Color("Yellow"))
+                        .frame(maxWidth: .infinity)
+                        .padding(5)
+                        
+                        HStack(spacing: 0) {
+                            ForEach(0..<currentBar.payment_method.count, id: \.self) { elt in
+                                Image(systemName: currentBar.payment_method[elt])
+                                    .scaledToFill()
+                                    .clipped()
+                            }
+                            
+                            Spacer()
+                            
+                            ForEach(0..<currentBar.average_price, id: \.self) { _ in
+                                Image(systemName: "eurosign")
+                                    .scaledToFill()
+                                    .clipped()
+                            }
+                            
+                            if currentBar.average_price < 5 {
+                                ForEach(0..<(5 - currentBar.average_price), id: \.self) { _ in
+                                    Image(systemName: "eurosign")
+                                        .scaledToFill()
+                                        .opacity(0.5)
+                                        .clipped()
+                                }
+                            }
+                        }.padding(.horizontal, 5).foregroundColor(Color("Orange"))
+                        
+                        HStack {
+                            Label(currentBar.address, systemImage: "road.lanes")
+                            
+                            Spacer()
+                            
+                            Label(currentBar.postal_code, systemImage: "signpost.right")
+                        }.font(.system(size: 15, weight: .bold, design: .rounded)).foregroundColor(.white).padding(.horizontal, 10).padding(.top, 2)
+                        
+                        HStack {
+                            Label(currentBar.phone, systemImage: "phone")
+                            
+                            Spacer()
+                            
+                            Label(currentBar.town, systemImage: "building.2")
+                        }.font(.system(size: 15, weight: .bold, design: .rounded)).foregroundColor(.white).padding(.horizontal, 10)
                     }
                     .padding(12)
                     .frame(maxWidth: .infinity)
@@ -98,7 +167,7 @@ struct BarView: View {
                             }
                         }
                     }
-                }.padding(.horizontal, 20).padding(.vertical, 5)
+                }.frame(maxHeight: 200).padding(.horizontal, 20).padding(.vertical, 5)
                 
                 Spacer()
             }

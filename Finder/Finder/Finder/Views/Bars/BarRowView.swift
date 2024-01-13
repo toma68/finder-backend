@@ -23,15 +23,11 @@ struct BarInfoView: View {
     
     var body: some View {
         HStack {
-            Image(systemName: "house.fill")
-            Text(":")
-            Text(bar.type)
+            Label(bar.type, systemImage: "house.fill")
             
             Spacer()
             
-            Image(systemName: "person.3.fill")
-            Text(":")
-            Text("\(bar.usersInBar.count) / \(bar.capacity)")
+            Label("\(bar.usersInBar.count) / \(bar.capacity)", systemImage: "person.3.fill")
         }
         .padding(5)
     }
@@ -42,16 +38,13 @@ struct BarHoursView: View {
     var viewModel: BarRowViewModel
     
     @State private var currentTime = Date()
-
     let timer = Timer.publish(every: 60, on: .main, in: .common).autoconnect()
 
     
     var body: some View {
         HStack {
             HStack {
-                Image(systemName: "clock")
-                Text(":")
-                Text("\(viewModel.getHour(date: bar.opening_hour))h\(viewModel.getMinutes(date: bar.opening_hour)) - \(viewModel.getHour(date: bar.closing_hour))h\(viewModel.getMinutes(date: bar.closing_hour))")
+                Label("\(viewModel.getHour(date: bar.opening_hour))h\(viewModel.getMinutes(date: bar.opening_hour)) - \(viewModel.getHour(date: bar.closing_hour))h\(viewModel.getMinutes(date: bar.closing_hour))", systemImage: "clock")
                 Spacer()
             }.foregroundColor(Color("LightGreen"))
 
