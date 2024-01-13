@@ -26,8 +26,8 @@ struct BarView: View {
     var body: some View {
         VStack {
             if let currentBar = selectedBar {
-                Text(currentBar.name).foregroundStyle(Color.white).font(.system(size: 30, weight: .bold, design: .rounded)).padding(.vertical, 20)
-
+                Text(currentBar.name).foregroundStyle(Color.white).font(.system(size: 33, weight: .bold, design: .rounded)).padding(.bottom, 10)
+                
                 Button (action: {
                     switchToMap(currentBar)
                 }) {
@@ -55,49 +55,50 @@ struct BarView: View {
                     .font(.system(size: 18, weight: .bold, design: .rounded))
                     .cornerRadius(10)
                     .shadow(radius: 5)
-                    .padding(20)
+                    .padding(.horizontal, 20).padding(.vertical, 5)
                 }
-
+                
                 UsersProcess(viewModel: viewUserModel)
                 
                 ScrollView {
-                    ForEach(viewUserModel.filteredUsers) { user in
-                        Button (action: {
-                            switchToUser(user)
-                        }) {
-                            HStack {
-                                AsyncImage(url: user.photo) { image in
-                                    image.resizable()
-                                        .frame(width: 50, height: 50)
-                                        .clipShape(Circle())
-                                        .overlay(Circle().stroke(Color.white, lineWidth: 1))
-                                } placeholder: {
-                                    ProgressView()
-                                }
-                                
-                                Spacer()
-                                
-                                VStack (alignment: .trailing, spacing: 1) {
-                                    Text(user.name + " " + user.surname)
-                                        .foregroundColor(.white)
-                                        .font(.system(size: 20, weight: .bold, design: .rounded))
+                    VStack {
+                        ForEach(viewUserModel.filteredUsers) { user in
+                            Button (action: {
+                                switchToUser(user)
+                            }) {
+                                HStack {
+                                    AsyncImage(url: user.photo) { image in
+                                        image.resizable()
+                                            .frame(width: 50, height: 50)
+                                            .clipShape(Circle())
+                                            .overlay(Circle().stroke(Color.white, lineWidth: 1))
+                                    } placeholder: {
+                                        ProgressView()
+                                    }
                                     
-                                    Label(user.company, systemImage: "house.fill")
+                                    Spacer()
+                                    
+                                    VStack (alignment: .trailing, spacing: 1) {
+                                        Text(user.name + " " + user.surname)
+                                            .foregroundColor(.white)
+                                            .font(.system(size: 20, weight: .bold, design: .rounded))
+                                        
+                                        Label(user.company, systemImage: "house.fill")
+                                    }
+                                    .frame(maxWidth: .infinity, alignment: .trailing)
+                                    .foregroundColor(Color("DarkBlue"))
+                                    .font(.system(size: 12, weight: .bold, design: .rounded))
                                 }
-                                .frame(maxWidth: .infinity, alignment: .trailing)
-                                .foregroundColor(Color("DarkBlue"))
-                                .font(.system(size: 12, weight: .bold, design: .rounded))
+                                .padding(.horizontal, 30)
+                                .padding(.vertical, 20)
+                                .padding(.vertical, 5)
+                                .background(viewModel.backgroundColor(for: user.gender))
+                                .cornerRadius(10)
+                                .shadow(radius: 2)
                             }
-                            .padding(.horizontal, 30)
-                            .padding(.vertical, 20)
-                            .padding(.vertical, 10)
-                            .background(viewModel.backgroundColor(for: user.gender))
-                            .cornerRadius(10)
-                            .shadow(radius: 2)
                         }
                     }
-                }
-                .padding(20)
+                }.padding(.horizontal, 20).padding(.vertical, 5)
                 
                 Spacer()
             }
