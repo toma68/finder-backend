@@ -23,6 +23,7 @@
 		F638BF222B52F030006CAD6F /* BarRowViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F638BF212B52F030006CAD6F /* BarRowViewModel.swift */; };
 		F638BF252B52F3EF006CAD6F /* BarRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F638BF242B52F3EF006CAD6F /* BarRowView.swift */; };
 		F638BF272B52F7B9006CAD6F /* DateWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F638BF262B52F7B9006CAD6F /* DateWrapper.swift */; };
+		F642157C2B53DA5A00E9A5A1 /* DashedBorderModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = F642157B2B53DA5A00E9A5A1 /* DashedBorderModifier.swift */; };
 		F647983A2B513818007601D7 /* UsersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F64798392B513818007601D7 /* UsersViewModel.swift */; };
 		F647983C2B514673007601D7 /* UserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F647983B2B514673007601D7 /* UserViewModel.swift */; };
 		F647983F2B514952007601D7 /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F647983E2B514952007601D7 /* MapViewModel.swift */; };
@@ -70,6 +71,7 @@
 		F638BF212B52F030006CAD6F /* BarRowViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarRowViewModel.swift; sourceTree = "<group>"; };
 		F638BF242B52F3EF006CAD6F /* BarRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarRowView.swift; sourceTree = "<group>"; };
 		F638BF262B52F7B9006CAD6F /* DateWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateWrapper.swift; sourceTree = "<group>"; };
+		F642157B2B53DA5A00E9A5A1 /* DashedBorderModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashedBorderModifier.swift; sourceTree = "<group>"; };
 		F64798392B513818007601D7 /* UsersViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersViewModel.swift; sourceTree = "<group>"; };
 		F647983B2B514673007601D7 /* UserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewModel.swift; sourceTree = "<group>"; };
 		F647983E2B514952007601D7 /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
@@ -161,6 +163,7 @@
 				F64B3B572B5041DE00608763 /* GlobalUser.swift */,
 				F64B3B592B50540A00608763 /* CustomError.swift */,
 				F638BF262B52F7B9006CAD6F /* DateWrapper.swift */,
+				F642157B2B53DA5A00E9A5A1 /* DashedBorderModifier.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -381,6 +384,7 @@
 				F647983C2B514673007601D7 /* UserViewModel.swift in Sources */,
 				F638BF222B52F030006CAD6F /* BarRowViewModel.swift in Sources */,
 				F64798412B51507F007601D7 /* MapContentViewModel.swift in Sources */,
+				F642157C2B53DA5A00E9A5A1 /* DashedBorderModifier.swift in Sources */,
 				F67CBFD92B40D68100FB1B4E /* Bar.swift in Sources */,
 				E22512FD2B2F721A00E84B5D /* TextCustomField.swift in Sources */,
 			);
@@ -513,6 +517,8 @@
 				DEVELOPMENT_ASSET_PATHS = "\"Finder/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "We need your location to provide continuous updates";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "We need your location to show nearby bars";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -541,6 +547,8 @@
 				DEVELOPMENT_ASSET_PATHS = "\"Finder/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "We need your location to provide continuous updates";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "We need your location to show nearby bars";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

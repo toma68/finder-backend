@@ -5,7 +5,6 @@
 //  Created by Maxime CRAYSSAC on 12/24/23.
 //
 
-import MapKit
 import SwiftUI
 
 struct MapView: View {

@@ -28,7 +28,7 @@ struct LoginView: View {
                 AsyncImage(url: URL(string: "https://finder.thomas-dev.com/finderLogo.png")) {
                     image in image.resizable().aspectRatio(contentMode: .fit).frame(width: 250)
                 } placeholder: {
-                    ProgressView()
+                    ProgressView().frame(width: 250, height: 250)
                 }
                 
                 TextCustomField(textLabel: "Enter a name", imageLabel: "rectangle.and.pencil.and.ellipsis", textPlacehorder: "John...", currentColor: textColor, text: $viewModel.name)

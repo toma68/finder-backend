@@ -18,6 +18,10 @@ class MapViewModel: ObservableObject {
     @Published var user: User? = nil
     
     var globalUser: GlobalUser?
+    
+    var annotationItems: [BarWithUsers] {
+        return bars
+    }
 
     func fetchBars() {
         barService.fetchBars { [weak self] result in

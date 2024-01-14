@@ -16,7 +16,7 @@ struct ImageTitleCustom: View {
             AsyncImage(url: URL(string: "https://finder.thomas-dev.com/finderLogo.png")) {
                 image in image.resizable().aspectRatio(contentMode: .fit).frame(width: imageWidth).padding(.horizontal, 30)
             } placeholder: {
-                ProgressView()
+                ProgressView().frame(width: imageWidth, height: imageWidth).padding(.horizontal, 30)
             }
             
             Spacer()

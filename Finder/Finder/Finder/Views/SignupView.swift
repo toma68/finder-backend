@@ -31,7 +31,7 @@ struct SignupView: View {
         NavigationView {
             VStack {
                 
-                ImageTitleCustom(titleText: "Signup", imageWidth: 150)
+                ImageTitleCustom(titleText: "Signup", imageWidth: 100)
                 
                 Spacer()
                 
