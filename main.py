@@ -280,28 +280,5 @@ def get_bars_users():
         return jsonify({'error': str(e)}), 500
     
 
-# Add a notation to a bar
-@app.route('/bars/notation', methods=['POST'])
-def add_notation():
-    try:
-        data = request.json
-        if not data or 'bar_id' not in data or 'user_id' not in data or 'notation' not in data:
-            return jsonify({'error': 'bar_id, user_id, and notation are required'}), 400
-        try:
-            bar_id = ObjectId(data['bar_id'])
-            user_id = ObjectId(data['user_id'])
-        except:
-            return jsonify({'error': 'Invalid bar_id or user_id format'}), 400
-        notation = data['notation']
-        if notation not in [1, 2, 3, 4, 5]:
-            return jsonify({'error': 'notation must be between 1 and 5'}), 400
-        bars_collection = client['finder']['bars']
-        update_result = bars_collection.update_one({'_id': bar_id}, {'$push': {'notations': {'user_id': user_id, 'notation': notation}}})
-        if update_result.matched_count == 0:
-            return jsonify({'error': 'Bar not found'}), 404
-        return jsonify({'message': 'Notation added successfully'}), 200
-    except Exception as e:
-        return jsonify({'error': str(e)}), 500
-
 if __name__ == '__main__':
     app.run(debug=True)
