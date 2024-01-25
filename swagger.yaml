@@ -1,7 +1,7 @@
 swagger: '2.0'
 info:
   title: Finder API
-  version: '1.0.0'
+  version: '1.1.0'
 host: 'localhost:5000'
 basePath: '/'
 schemes:
@@ -24,10 +24,20 @@ paths:
   /users:
     get:
       summary: Get all users
-      description: Retrieves a list of all users.
+      description: Retrieves a list of all users. Optionally, a specific user can be retrieved by providing a user ID.
+      parameters:
+        - in: query
+          name: user_id
+          required: false
+          type: string
+          description: The user's ID.
       responses:
         200:
-          description: A list of users.
+          description: A list of users or a specific user if user_id is provided.
+        400:
+          description: Invalid user_id format.
+        404:
+          description: User not found.
         500:
           description: Error occurred.
 
@@ -38,21 +48,13 @@ paths:
       parameters:
         - in: body
           name: user
-          description: The user's name and surname.
+          required: true
           schema:
-            type: object
-            required:
-              - name
-              - surname
-            properties:
-              name:
-                type: string
-              surname:
-                type: string
+            $ref: '#/definitions/UserLogin'
       responses:
         200:
           description: User found and returned.
-        404:
+        401:
           description: User not found.
         500:
           description: Error occurred.
@@ -64,54 +66,76 @@ paths:
       parameters:
         - in: body
           name: user
-          description: New user details.
+          required: true
           schema:
-            type: object
-            required:
-              - name
-              - surname
-              - company
-              - bio
-              - photo
-              - gender
-            properties:
-              name:
-                type: string
-              surname:
-                type: string
-              company:
-                type: string
-              bio:
-                type: string
-              photo:
-                type: string
-              gender:
-                type: string
+            $ref: '#/definitions/User'
       responses:
         200:
           description: User created successfully.
+        400:
+          description: Invalid request body.
         409:
           description: User already exists.
         500:
           description: Error occurred.
 
-  /users/bars:
-    get:
-      summary: Get all users with their corresponding bars
-      description: Retrieves all users and the bars they are in, if any.
+  /users/update:
+    put:
+      summary: Update a user
+      description: Updates an existing user's details.
+      parameters:
+        - in: body
+          name: user
+          required: true
+          schema:
+            $ref: '#/definitions/UserUpdate'
       responses:
         200:
-          description: A list of users with their corresponding bars.
+          description: User updated successfully.
+        400:
+          description: Invalid request body.
+        404:
+          description: User not found.
+        409:
+          description: Another user with the same name and surname exists.
+        500:
+          description: Error occurred.
+
+  /users/update-bar:
+    post:
+      summary: Update a user's bar
+      description: Updates a user's associated bar.
+      parameters:
+        - in: body
+          name: userBar
+          required: true
+          schema:
+            $ref: '#/definitions/UserBarUpdate'
+      responses:
+        200:
+          description: User bar updated successfully.
+        400:
+          description: Invalid request body or user ID.
+        404:
+          description: User not found.
         500:
           description: Error occurred.
 
   /bars:
     get:
       summary: Get all bars
-      description: Retrieves a list of all bars.
+      description: Retrieves a list of all bars. Optionally, a specific bar can be retrieved by providing a bar ID.
+      parameters:
+        - in: query
+          name: _id
+          required: false
+          type: string
+          description: The bar's ID.
       responses:
         200:
-          description: A list of bars.
+          description: A list of bars or a specific bar if _id is provided.
+        400:
+          description: Invalid _id format.
         500:
           description: Error occurred.
 
@@ -119,9 +143,17 @@ paths:
     get:
       summary: Get all bars with their corresponding users
       description: Retrieves all bars and the users in them, if any.
+      parameters:
+        - in: query
+          name: _id
+          required: false
+          type: string
+          description: The bar's ID to filter.
       responses:
         200:
           description: A list of bars with their corresponding users.
+        404:
+          description: Bar not found.
         500:
           description: Error occurred.
 
@@ -142,6 +174,42 @@ definitions:
       gender:
         type: string
       bar_id:
+        type: string
+
+  UserLogin:
+    type: object
+    properties:
+      name:
+        type: string
+      surname:
+        type: string
+
+  UserUpdate:
+    type: object
+    properties:
+      user_id:
+        type: string
+      name:
+        type: string
+      surname:
+        type: string
+      company:
+        type: string
+      bio:
+        type: string
+      photo:
+        type: string
+      gender:
+        type: string
+      bar_id:
+        type: string
+
+  UserBarUpdate:
+    type: object
+    properties:
+      user_id:
+        type: string
+      new_bar_id:
         type: string
 
   Bar:

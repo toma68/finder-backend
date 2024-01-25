@@ -115,46 +115,6 @@ def signup():
         print("Error: ", e)
         return jsonify({'error': str(e)}), 500
     
-# Get all users with their corresponding bars
-@app.route('/users/bars', methods=['GET'])
-def get_users_bars():
-    try:
-        if request.args is None or 'name' not in request.args:
-            pipeline = [
-                { "$lookup": {                     
-                    "from": "bars",
-                    "localField": "bar_id",
-                    "foreignField": "_id",
-                    "as": "bar"
-                }}
-            ]
-            users = client['finder']['users'].aggregate(pipeline)
-            return json.dumps(list(users), default=json_util.default), 200
-        pipeline = [
-            { "$match": {"name": request.args['name']} },  
-            { "$lookup": {                      
-                "from": "bars",
-                "localField": "bar_id",
-                "foreignField": "_id",
-                "as": "bar"
-            }}
-        ]
-        user = client['finder']['users'].aggregate(pipeline)
-        if user is None:
-            pipeline = [
-                { "$lookup": {                      
-                    "from": "bars",
-                    "localField": "bar_id",
-                    "foreignField": "_id",
-                    "as": "bar"
-                }}
-            ]
-            users = client['finder']['users'].aggregate(pipeline)
-            return json.dumps(list(users), default=json_util.default), 200
-        return json.dumps(list(user), default=json_util.default), 200
-    except Exception as e:
-        return jsonify({'error': e}), 500
-    
 # Update a user
 @app.route('/users/update', methods=['PUT'])
 def update_user():
