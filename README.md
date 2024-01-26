@@ -86,6 +86,147 @@ Finder consists of several key views, each designed to offer specific functional
 <img src="https://raw.githubusercontent.com/toma68/finder-backend/main/Pictures/Users.png" alt="Users" height="500"/>
 <img src="https://raw.githubusercontent.com/toma68/finder-backend/main/Pictures/User.png" alt="User" height="500"/>
 
+## API Documentation
+
+The Finder API provides various endpoints for managing users and bars, as well as retrieving and updating information related to users and bars. Below is the Swagger 2.0 specification for the API.
+
+### Base URL
+- **Host**: `localhost:5000`
+- **Base Path**: `/`
+- **Schemes**: `http`
+- **Swagger**: `http://localhost:5000/swagger`
+
+### Endpoints
+
+#### `/ping` - Check MongoDB connection
+- **Method**: GET
+- **Summary**: Pings the MongoDB server to check connectivity.
+- **Responses**:
+  - `200`: Successfully connected to MongoDB.
+  - `500`: Error occurred.
+
+#### `/users` - Get all users
+- **Method**: GET
+- **Summary**: Retrieves a list of all users or a specific user by providing a user ID.
+- **Parameters**:
+  - `user_id`: (optional) The user's ID.
+- **Responses**:
+  - `200`: A list of users or a specific user if user_id is provided.
+  - `400`: Invalid user_id format.
+  - `404`: User not found.
+  - `500`: Error occurred.
+
+#### `/users/login` - User login
+- **Method**: POST
+- **Summary**: Checks if a user exists based on name and surname.
+- **Parameters**:
+  - `user`: User object with name and surname.
+- **Responses**:
+  - `200`: User found and returned.
+  - `401`: User not found.
+  - `500`: Error occurred.
+
+#### `/users/signup` - User signup
+- **Method**: POST
+- **Summary**: Creates a new user.
+- **Parameters**:
+  - `user`: User object with required details.
+- **Responses**:
+  - `200`: User created successfully.
+  - `400`: Invalid request body.
+  - `409`: User already exists.
+  - `500`: Error occurred.
+
+#### `/users/update` - Update a user
+- **Method**: PUT
+- **Summary**: Updates an existing user's details.
+- **Parameters**:
+  - `user`: User update object.
+- **Responses**:
+  - `200`: User updated successfully.
+  - `400`: Invalid request body.
+  - `404`: User not found.
+  - `409`: Another user with the same name and surname exists.
+  - `500`: Error occurred.
+
+#### `/users/update-bar` - Update a user's bar
+- **Method**: POST
+- **Summary**: Updates a user's associated bar.
+- **Parameters**:
+  - `userBar`: User bar update object.
+- **Responses**:
+  - `200`: User bar updated successfully.
+  - `400`: Invalid request body or user ID.
+  - `404`: User not found.
+  - `500`: Error occurred.
+
+#### `/bars` - Get all bars
+- **Method**: GET
+- **Summary**: Retrieves a list of all bars or a specific bar by providing a bar ID.
+- **Parameters**:
+  - `_id`: (optional) The bar's ID.
+- **Responses**:
+  - `200`: A list of bars or a specific bar if _id is provided.
+  - `400`: Invalid _id format.
+  - `500`: Error occurred.
+
+#### `/bars/users` - Get all bars with their corresponding users
+- **Method**: GET
+- **Summary**: Retrieves all bars and the users in them, if any.
+- **Parameters**:
+  - `_id`: (optional) The bar's ID to filter.
+- **Responses**:
+  - `200`: A list of bars with their corresponding users.
+  - `404`: Bar not found.
+  - `500`: Error occurred.
+
+### Data Models
+
+#### `User`
+- **Type**: object
+- **Properties**:
+  - `name`: string
+  - `surname`: string
+  - `company`: string
+  - `bio`: string
+  - `photo`: string
+  - `gender`: string
+  - `bar_id`: string
+
+#### `UserLogin`
+- **Type**: object
+- **Properties**:
+  - `name`: string
+  - `surname`: string
+
+#### `UserUpdate`
+- **Type**: object
+- **Properties**:
+  - `user_id`: string
+  - `name`: string
+  - `surname`: string
+  - `company`: string
+  - `bio`: string
+  - `photo`: string
+  - `gender`: string
+  - `bar_id`: string
+
+#### `UserBarUpdate`
+- **Type**: object
+- **Properties**:
+  - `user_id`: string
+  - `new_bar_id`: string
+
+#### `Bar`
+- **Type**: object
+- **Properties**:
+  - `name`: string
+  - `longitude`: string
+  - `latitude`: string
+  - `capacity`: string
+  - `type`: string
+  - `description`: string
+
 ## Contributors
 
 - [@mcrayssac](API and SwiftUI)
