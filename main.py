@@ -137,7 +137,7 @@ def update_user():
         users_collection = client['finder']['users']
 
         # Check if another user with the same name and surname exists
-        existing_user = users_collection.find_one({'name': user_data['name'],'surname': user_data['surname']})
+        existing_user = users_collection.find_one({'name': user_data['name'], 'surname': user_data['surname'], '_id': {'$ne': oid}})
         if existing_user:
             return jsonify({'message': 'Another user with the same name and surname already exists'}), 409
 
