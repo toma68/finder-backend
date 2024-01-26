@@ -30,21 +30,18 @@ Finder is a mobile application built using SwiftUI and designed to provide users
 Finder consists of several key views, each designed to offer specific functionalities and enhance user experience:
 
 ### Profile View
-
-![Login](https://raw.githubusercontent.com/toma68/finder-backend/main/Pictures/Login.png)
-![Signup](https://raw.githubusercontent.com/toma68/finder-backend/main/Pictures/Signup.png)
-![Profile](https://raw.githubusercontent.com/toma68/finder-backend/main/Pictures/Profile.png)
-
 - **Description**: This view allows users to manage their personal profile.
 - **Features**:
     - Users can log in, log out, and sign up for an account.
     - Displays user information, such as name, bio, and profile picture.
     - Users can view and edit their personal information.
+- **Login, Signup, and Profile Screenshots**:
+
+<img src="https://raw.githubusercontent.com/toma68/finder-backend/main/Pictures/Login.png" alt="Login" height="500"/>
+<img src="https://raw.githubusercontent.com/toma68/finder-backend/main/Pictures/Signup.png" alt="Signup" height="500"/>
+<img src="https://raw.githubusercontent.com/toma68/finder-backend/main/Pictures/Profile.png" alt="Profile" height="500"/>
 
 ### Bars View
-
-![Bars](https://raw.githubusercontent.com/toma68/finder-backend/main/Pictures/Bars.png)
-![Bar](https://raw.githubusercontent.com/toma68/finder-backend/main/Pictures/Bar.png)
 
 - **Description**: Dedicated to showcasing all different bars.
 - **Features**:
@@ -53,14 +50,12 @@ Finder consists of several key views, each designed to offer specific functional
     - Real-time opening hours updates.
     - Features filters and search functionality to refine the list of bars.
     - See users who are currently in selected bar.
+- **Bars and Bar Screenshots**:
+
+<img src="https://raw.githubusercontent.com/toma68/finder-backend/main/Pictures/Bars.png" alt="Bars" height="500"/>
+<img src="https://raw.githubusercontent.com/toma68/finder-backend/main/Pictures/Bar.png" alt="Bar" height="500"/>
 
 ### Map View
-
-![Map centered on markers](https://raw.githubusercontent.com/toma68/finder-backend/main/Pictures/MarkersMapCentered.png)
-![Map centered on user's current location](https://raw.githubusercontent.com/toma68/finder-backend/main/Pictures/UserLocationMapCentered.png)
-![Selected opened bar without user logged in](https://raw.githubusercontent.com/toma68/finder-backend/main/Pictures/MapBarOpenUserNotLogged.png)
-![Selected opened bar with a user logged in](https://raw.githubusercontent.com/toma68/finder-backend/main/Pictures/MapBarOpen.png)
-![Selected closed bar with a user logged in](https://raw.githubusercontent.com/toma68/finder-backend/main/Pictures/MapBarClose.png)
 
 - **Description**: Integrates MapKit to display a map with bar locations and user's current location.
 - **Features**:
@@ -70,17 +65,26 @@ Finder consists of several key views, each designed to offer specific functional
     - Real-time opening hours updates.
     - Real-time occupancy updates.
     - Real-time distance calculation between user and selected bar.
+- **Map Screenshots**:
+
+<img src="https://raw.githubusercontent.com/toma68/finder-backend/main/Pictures/MarkersMapCentered.png" alt="Map centered on markers" height="500"/>
+<img src="https://raw.githubusercontent.com/toma68/finder-backend/main/Pictures/UserLocationMapCentered.png" alt="Map centered on user's current location" height="500"/>
+<img src="https://raw.githubusercontent.com/toma68/finder-backend/main/Pictures/MapBarOpenUserNotLogged.png" alt="Selected opened bar without user logged in" height="500"/>
+<img src="https://raw.githubusercontent.com/toma68/finder-backend/main/Pictures/MapBarOpen.png" alt="Selected opened bar with a user logged in" height="500"/>
+<img src="https://raw.githubusercontent.com/toma68/finder-backend/main/Pictures/MapBarClose.png" alt="Selected closed bar with a user logged in" height="500"/>
+
 
 ### Users View
-
-![Users](https://raw.githubusercontent.com/toma68/finder-backend/main/Pictures/Users.png)
-![User](https://raw.githubusercontent.com/toma68/finder-backend/main/Pictures/User.png)
 
 - **Description**: Focuses on the social aspect of the app, allowing users to see each other's profiles.
 - **Features**:
     - View profiles of other users with their personal information.
     - Search for other users by name, surname, or gender.
     - For each user, see bar they are currently in with real-time occupancy.
+- **Users and User Screenshots**:
+
+<img src="https://raw.githubusercontent.com/toma68/finder-backend/main/Pictures/Users.png" alt="Users" height="500"/>
+<img src="https://raw.githubusercontent.com/toma68/finder-backend/main/Pictures/User.png" alt="User" height="500"/>
 
 ## Contributors
 
