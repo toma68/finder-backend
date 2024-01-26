@@ -31,6 +31,10 @@ Finder consists of several key views, each designed to offer specific functional
 
 ### Profile View
 
+![Login](https://raw.githubusercontent.com/toma68/finder-backend/main/Pictures/Login.png)
+![Signup](https://raw.githubusercontent.com/toma68/finder-backend/main/Pictures/Signup.png)
+![Profile](https://raw.githubusercontent.com/toma68/finder-backend/main/Pictures/Profile.png)
+
 - **Description**: This view allows users to manage their personal profile.
 - **Features**:
     - Users can log in, log out, and sign up for an account.
@@ -38,6 +42,9 @@ Finder consists of several key views, each designed to offer specific functional
     - Users can view and edit their personal information.
 
 ### Bars View
+
+![Bars](https://raw.githubusercontent.com/toma68/finder-backend/main/Pictures/Bars.png)
+![Bar](https://raw.githubusercontent.com/toma68/finder-backend/main/Pictures/Bar.png)
 
 - **Description**: Dedicated to showcasing all different bars.
 - **Features**:
@@ -49,6 +56,12 @@ Finder consists of several key views, each designed to offer specific functional
 
 ### Map View
 
+![Map centered on markers](https://raw.githubusercontent.com/toma68/finder-backend/main/Pictures/MarkersMapCentered.png)
+![Map centered on user's current location](https://raw.githubusercontent.com/toma68/finder-backend/main/Pictures/UserLocationMapCentered.png)
+![Selected opened bar without user logged in](https://raw.githubusercontent.com/toma68/finder-backend/main/Pictures/MapBarOpenUserNotLogged.png)
+![Selected opened bar with a user logged in](https://raw.githubusercontent.com/toma68/finder-backend/main/Pictures/MapBarOpen.png)
+![Selected closed bar with a user logged in](https://raw.githubusercontent.com/toma68/finder-backend/main/Pictures/MapBarClose.png)
+
 - **Description**: Integrates MapKit to display a map with bar locations and user's current location.
 - **Features**:
     - Interactive map showing the user's current location and nearby bars as markers.
@@ -59,6 +72,9 @@ Finder consists of several key views, each designed to offer specific functional
     - Real-time distance calculation between user and selected bar.
 
 ### Users View
+
+![Users](https://raw.githubusercontent.com/toma68/finder-backend/main/Pictures/Users.png)
+![User](https://raw.githubusercontent.com/toma68/finder-backend/main/Pictures/User.png)
 
 - **Description**: Focuses on the social aspect of the app, allowing users to see each other's profiles.
 - **Features**:
